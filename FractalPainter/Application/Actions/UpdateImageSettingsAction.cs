@@ -1,20 +1,12 @@
 ﻿using System.Net;
 using System.Text.Json;
 using FractalPainting.Infrastructure.Common;
-using FractalPainting.Infrastructure.Injection;
 using FractalPainting.Infrastructure.UiActions;
 
 namespace FractalPainting.Application.Actions;
 
-public class UpdateImageSettingsAction : IApiAction, INeed<IImageSettingsProvider>
+public class UpdateImageSettingsAction(IImageSettingsProvider imageSettingsProvider) : IApiAction
 {
-    private IImageSettingsProvider imageSettingsProvider = null!;
-
-    public void SetDependency(IImageSettingsProvider dependency)
-    {
-        imageSettingsProvider = dependency;
-    }
-
     public string Endpoint => "/settings";
     public string HttpMethod => "PUT";
 
