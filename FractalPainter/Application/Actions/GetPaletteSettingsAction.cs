@@ -1,20 +1,12 @@
 ﻿using System.Net;
 using System.Text.Json;
 using FractalPainting.Infrastructure.Common;
-using FractalPainting.Infrastructure.Injection;
 using FractalPainting.Infrastructure.UiActions;
 
 namespace FractalPainting.Application.Actions;
 
-public class GetPaletteSettingsAction : IApiAction, INeed<Palette>
+public class GetPaletteSettingsAction(Palette palette) : IApiAction
 {
-    private Palette palette = null!;
-
-    public void SetDependency(Palette dependency)
-    {
-        palette = dependency;
-    }
-
     public string Endpoint => "/palette";
         
     public string HttpMethod => "GET";
