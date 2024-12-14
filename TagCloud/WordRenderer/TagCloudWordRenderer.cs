@@ -14,7 +14,7 @@ public class TagCloudWordRenderer(
 #pragma warning disable CA1416
     public Bitmap Render(IWordStatistics statistics)
     {
-        var imageSize = imageSizeProvider.GetImageSize();
+        var imageSize = imageSizeProvider.ImageSize;
         var bitmap = new Bitmap(imageSize.Width, imageSize.Height);
         var graphics = Graphics.FromImage(bitmap);
         graphics.SmoothingMode = SmoothingMode.AntiAlias;

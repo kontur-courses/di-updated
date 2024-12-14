@@ -4,5 +4,5 @@ namespace TagCloud.WordRenderer;
 
 public interface IImageSizeProvider
 {
-    public Size GetImageSize();
+    public Size ImageSize { get; set; }
 }
