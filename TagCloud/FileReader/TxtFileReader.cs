@@ -28,11 +28,11 @@ public class TxtFileReader : IFileReader
 
     public void OpenFile(string filePath)
     {
-        if (_disposed)
-            throw new ObjectDisposedException(nameof(TxtFileReader));
+        ObjectDisposedException.ThrowIf(_disposed, this);
         if (_streamReader != null)
             throw new InvalidOperationException("File is already open");
         ArgumentNullException.ThrowIfNull(filePath);
+        
         if (!Path.IsPathFullyQualified(filePath))
             throw new ArgumentException("path must be absolute");
         if (!Path.HasExtension(filePath) || !Path.GetExtension(filePath).Equals(".txt"))
@@ -46,6 +46,7 @@ public class TxtFileReader : IFileReader
     public bool TryGetNextLine(out string line)
     {
         line = String.Empty;
+        ObjectDisposedException.ThrowIf(_disposed, this);
         if (_streamReader == null)
             throw new InvalidOperationException("File is not open");
         if (_streamReader.EndOfStream)
