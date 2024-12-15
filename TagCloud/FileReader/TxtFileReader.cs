@@ -5,10 +5,7 @@ public class TxtFileReader : IFileReader
     private StreamReader _streamReader = null!;
     private bool _disposed = false;
 
-    public TxtFileReader(FileReaderRegistry registry)
-    {
-        registry.RegisterFileReader(".txt", this);
-    }
+    public string FileExtension { get => ".txt"; }
     
     public void Dispose()
     {

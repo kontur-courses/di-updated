@@ -1,16 +1,41 @@
 namespace TagCloud.FileReader;
 
-public class FileReaderRegistry
+public class FileReaderRegistry : IDisposable
 {
-    private Dictionary<string, IFileReader> _fileReaders  = new Dictionary<string, IFileReader>();
+    private  Dictionary<string, IFileReader> _fileReaders;
+    private bool _isDisposed;
 
-    public void RegisterFileReader(string fileExtension,IFileReader fileReader)
+    public FileReaderRegistry(IFileReader[] fileReaders)
     {
-        _fileReaders.TryAdd(fileExtension, fileReader);
+        _fileReaders = new Dictionary<string, IFileReader>();
+        foreach (var reader in fileReaders)
+            _fileReaders.Add(reader.FileExtension, reader);
     }
-
+    
     public bool TyrGetFileReader(string fileExtension, out IFileReader fileReader)
     {
+        ObjectDisposedException.ThrowIf(_isDisposed, this);
         return _fileReaders.TryGetValue(fileExtension, out fileReader);
+    }
+
+    public void Dispose()
+    {
+        Dispose(true);
+        GC.SuppressFinalize(this);
+    }
+
+    protected virtual void Dispose(bool disposing)
+    {
+        if (!_isDisposed)
+        {
+            if (disposing)
+            {
+                foreach (var reader in _fileReaders.Values)
+                    reader.Dispose();
+                _fileReaders.Clear();
+            }
+            _fileReaders = null;
+            _isDisposed = true;
+        }
     }
 }
