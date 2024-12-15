@@ -7,6 +7,7 @@ using System.Linq;
 using FluentAssertions;
 using NUnit.Framework;
 using NUnit.Framework.Interfaces;
+using TagCloud.SettingsProvider;
 using TagCloud.TagsCloudVisualization;
 
 namespace TagsCloudVisualization.Tests;
@@ -24,7 +25,8 @@ public class CircularCloudLayouterTests
     [SetUp]
     public void SetUp()
     {
-        _circularCloudLayouter = new CircularCloudLayouterImpl(Point.Empty);
+        _circularCloudLayouter = new CircularCloudLayouterImpl(Point.Empty,
+            SettingsProviderImpl.DefaultSettingsProvider);
     }
 
     [OneTimeSetUp]
