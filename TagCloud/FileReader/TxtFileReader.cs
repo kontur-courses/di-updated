@@ -5,6 +5,11 @@ public class TxtFileReader : IFileReader
     private StreamReader _streamReader = null!;
     private bool _disposed = false;
 
+    static TxtFileReader()
+    {
+        FileReaderRegistry.RegisterFileReader(".txt", new TxtFileReader());
+    }
+
     ~TxtFileReader()
     {
         Dispose(false);
@@ -45,8 +50,9 @@ public class TxtFileReader : IFileReader
 
     public bool TryGetNextLine(out string line)
     {
-        line = String.Empty;
         ObjectDisposedException.ThrowIf(_disposed, this);
+        
+        line = String.Empty;
         if (_streamReader == null)
             throw new InvalidOperationException("File is not open");
         if (_streamReader.EndOfStream)
