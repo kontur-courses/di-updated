@@ -26,21 +26,9 @@ public class CircularCloudLayouterImpl : ICircularCloudLayouter
     private Point _cloudCenter;
     private List<Rectangle> _generatedLayout = new();
     private double _nextAngle;
-    private double _angleStep = Math.PI / 2;
+    private double _angleStep = Math.PI / 32;
     private int _currentCycle;
-    private int CurrentCycle
-    {
-        get => _currentCycle;
-        set
-        {
-            ArgumentOutOfRangeException.ThrowIfNegative(value);
-            if (value < MaxCycleCount)
-            {
-                _currentCycle = value;
-                _angleStep = Math.PI / Math.Pow(2, value);
-            }
-        }
-    }
+    private float _startingStep = 0.0f;
     
     public CircularCloudLayouterImpl(Point center)
     {
@@ -70,20 +58,34 @@ public class CircularCloudLayouterImpl : ICircularCloudLayouter
 
     private Rectangle GetNextRectangle(Size rectangleSize)
     {
-        Rectangle result = Rectangle.Empty;
         var found = false;
-        while (!found)
+        var direction = GetNextDirection();
+        var resultList = new List<Rectangle>();
+        var stepSum = 0.0f;
+        var iterationCount = 0;
+        while (_nextAngle != 0)
         {
-            var direction = GetNextDirection();
-            var step = 0.0f;
+            var step = _startingStep;
+            var result = Rectangle.Empty;
             while (step < 1f && !found)
             {
                 (step, var availablePos) = FindNextAvailablePosByTracingLine(direction, step);
                 found = TryFindGoodRectanglePosition(availablePos, rectangleSize, out result);
             }
+            
+            if (found)
+                resultList.Add(result);
+            found = false;
+            direction = GetNextDirection();
+            stepSum += step;
+            iterationCount++;
         }
+        
+        var averageStep = stepSum / iterationCount;
+        if (averageStep >= _startingStep + 0.05f)
+            _startingStep = (float)Math.Round(averageStep, 2, MidpointRounding.ToZero);
 
-        return result;
+        return resultList.MinBy(rect => rect.RectangleCenter().SquaredDistanceTo(_cloudCenter));
     }
 
     private bool TryFindGoodRectanglePosition(Point posToPlace, Size rectangleSize, out Rectangle result)
@@ -168,10 +170,7 @@ public class CircularCloudLayouterImpl : ICircularCloudLayouter
         var y = (float)Math.Sin(_nextAngle);
         _nextAngle += _angleStep;
         if (Math.Abs(_nextAngle - Math.PI * 2) < 1e-12f)
-        {
             _nextAngle = 0;
-            CurrentCycle++;
-        }
         return new PointF(x, y);
     }
 }
