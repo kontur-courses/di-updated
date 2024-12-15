@@ -1,11 +1,16 @@
 namespace TagCloud.FileReader;
 
-public static class FileReaderRegistry
+public class FileReaderRegistry
 {
-    public static Dictionary<string, IFileReader> FileReaders { get; } = new Dictionary<string, IFileReader>();
+    private Dictionary<string, IFileReader> _fileReaders  = new Dictionary<string, IFileReader>();
 
-    public static void RegisterFileReader(string fileExtension,IFileReader fileReader)
+    public void RegisterFileReader(string fileExtension,IFileReader fileReader)
     {
-        FileReaders.Add(fileExtension, fileReader);
+        _fileReaders.TryAdd(fileExtension, fileReader);
+    }
+
+    public bool TyrGetFileReader(string fileExtension, out IFileReader fileReader)
+    {
+        return _fileReaders.TryGetValue(fileExtension, out fileReader);
     }
 }

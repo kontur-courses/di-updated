@@ -5,14 +5,9 @@ public class TxtFileReader : IFileReader
     private StreamReader _streamReader = null!;
     private bool _disposed = false;
 
-    static TxtFileReader()
+    public TxtFileReader(FileReaderRegistry registry)
     {
-        FileReaderRegistry.RegisterFileReader(".txt", new TxtFileReader());
-    }
-
-    ~TxtFileReader()
-    {
-        Dispose(false);
+        registry.RegisterFileReader(".txt", this);
     }
     
     public void Dispose()
@@ -25,7 +20,11 @@ public class TxtFileReader : IFileReader
     {
         if (!_disposed)
         {
-            _streamReader?.Dispose();
+            if (disposing)
+            {
+                if (_streamReader != null!)
+                    _streamReader.Dispose();
+            }
             _streamReader = null!;
             _disposed = true;
         }
