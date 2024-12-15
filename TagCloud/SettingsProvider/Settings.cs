@@ -10,4 +10,6 @@ public record Settings
     public int MinFontSize { get; init; }
     public int MaxFontSize { get; init; }
     public Size ImageSize { get; init; }
+    public float TracingStep { get; init; }
+    public double AngleStep { get; init; }
 }

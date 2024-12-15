@@ -4,7 +4,7 @@ using TagCloud.Logger;
 
 namespace TagCloud.SettingsProvider;
 
-public class SettingsProviderImpl(ILogger logger) : ISettingsProvider
+public class SettingsProviderImpl(ILogger? logger) : ISettingsProvider
 {
     private static readonly string _settingsFile = "settings.json";
     private static readonly Settings _defaultSettings = new Settings
@@ -16,11 +16,23 @@ public class SettingsProviderImpl(ILogger logger) : ISettingsProvider
         ImageSize = new Size(500, 500),
         MaxFontSize = 70,
         MinFontSize = 8,
-        TextColor = Color.Black
+        TextColor = Color.Black,
+        TracingStep = 0.001f,
+        AngleStep = Math.PI / 32
     };
     
     private Settings _settings = null!;
-    
+
+    public static ISettingsProvider DefaultSettingsProvider
+    {
+        get
+        {
+            var provider = new SettingsProviderImpl(null);
+            provider._settings = _defaultSettings;
+            return provider;
+        }
+    }
+
     public Settings GetSettings()
     {
         if (_settings != null!)
@@ -35,7 +47,7 @@ public class SettingsProviderImpl(ILogger logger) : ISettingsProvider
         catch (Exception e)
         {
             _settings = _defaultSettings;
-            logger.Warning($"Failed to load settings file: {e.Message}");
+            logger?.Warning($"Failed to load settings file: {e.Message}");
         }
         
         return _settings;

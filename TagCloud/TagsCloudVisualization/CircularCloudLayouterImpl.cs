@@ -1,13 +1,10 @@
 using System.Drawing;
+using TagCloud.SettingsProvider;
 
 namespace TagCloud.TagsCloudVisualization;
 
 public class CircularCloudLayouterImpl : ICircularCloudLayouter
 {
-    private static readonly float TracingStep = 0.001f;
-    private static readonly float MaxTracingDistance = 1000f;
-    private static readonly int MaxCycleCount = 7;
-
     public Point CloudCenter
     {
         get => _cloudCenter;
@@ -23,16 +20,25 @@ public class CircularCloudLayouterImpl : ICircularCloudLayouter
     
     public IEnumerable<Rectangle> Layout => _generatedLayout.AsEnumerable();
 
+    private readonly float _tracingStep;
+    private readonly float _maxTracingDistance;
     private Point _cloudCenter;
-    private List<Rectangle> _generatedLayout = new();
+    private readonly List<Rectangle> _generatedLayout;
     private double _nextAngle;
-    private double _angleStep = Math.PI / 32;
-    private int _currentCycle;
-    private float _startingStep = 0.0f;
+    private readonly double _angleStep;
+    private float _startingStep;
     
-    public CircularCloudLayouterImpl(Point center)
+    public CircularCloudLayouterImpl(Point center, ISettingsProvider settingsProvider)
     {
+        _generatedLayout = new List<Rectangle>();
         CloudCenter = center;
+        
+        var settings = settingsProvider.GetSettings();
+        var diameter = Math.Min(settings.ImageSize.Width, settings.ImageSize.Height);
+        _maxTracingDistance = (float)diameter / 2;
+        
+        _tracingStep = settings.TracingStep;
+        _angleStep = settings.AngleStep;
     }
 
     public Rectangle PutNextRectangle(Size rectangleSize)
@@ -140,9 +146,9 @@ public class CircularCloudLayouterImpl : ICircularCloudLayouter
     private (float, Point) FindNextAvailablePosByTracingLine(PointF direction, float startingStep = 0.0f)
     {
         var nextPos = new PointF(
-            CloudCenter.X + direction.X * MaxTracingDistance * TracingStep,
-            CloudCenter.Y + direction.Y * MaxTracingDistance * TracingStep);
-        var currentStep = startingStep == 0.0f ? TracingStep : startingStep;
+            CloudCenter.X + direction.X * _maxTracingDistance * _tracingStep,
+            CloudCenter.Y + direction.Y * _maxTracingDistance * _tracingStep);
+        var currentStep = startingStep == 0.0f ? _tracingStep : startingStep;
         var notInRectangle = false;
         while (!notInRectangle)
         {
@@ -155,10 +161,10 @@ public class CircularCloudLayouterImpl : ICircularCloudLayouter
                     break;
                 }
             }
-            currentStep += TracingStep;
+            currentStep += _tracingStep;
             nextPos = new PointF(
-                CloudCenter.X + direction.X * MaxTracingDistance * currentStep,
-                CloudCenter.Y + direction.Y * MaxTracingDistance * currentStep);
+                CloudCenter.X + direction.X * _maxTracingDistance * currentStep,
+                CloudCenter.Y + direction.Y * _maxTracingDistance * currentStep);
         }
 
         return (currentStep, Point.Truncate(nextPos));
