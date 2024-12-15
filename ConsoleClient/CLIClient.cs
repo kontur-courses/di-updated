@@ -18,7 +18,7 @@ public class CLIClient : IDisposable
         if (options.InputFile != null!)
         {
             var extension = Path.GetExtension(options.InputFile);
-            if (_readerRegistry.TyrGetFileReader(extension, out var fileReader))
+            if (_readerRegistry.TryGetFileReader(extension, out var fileReader))
             {
                 fileReader.OpenFile(Path.GetFullPath(options.InputFile));
                 while (fileReader.TryGetNextLine(out var line))

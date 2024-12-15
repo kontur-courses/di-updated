@@ -12,7 +12,7 @@ public class FileReaderRegistry : IDisposable
             _fileReaders.Add(reader.FileExtension, reader);
     }
     
-    public bool TyrGetFileReader(string fileExtension, out IFileReader fileReader)
+    public bool TryGetFileReader(string fileExtension, out IFileReader fileReader)
     {
         ObjectDisposedException.ThrowIf(_isDisposed, this);
         return _fileReaders.TryGetValue(fileExtension, out fileReader);
