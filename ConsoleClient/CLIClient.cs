@@ -1,7 +1,9 @@
 using System.Drawing;
+using System.Drawing.Imaging;
 using System.Text;
 using CommandLine;
 using TagCloud.FileReader;
+using TagCloud.Logger;
 using TagCloud.WordPreprocessor;
 using TagCloud.WordRenderer;
 using TagCloud.WordStatistics;
@@ -14,22 +16,27 @@ public class CLIClient : IDisposable
     private IWordPreprocessor _wordPreprocessor;
     private IWordStatistics _wordStatistics;
     private IWordRenderer _wordRenderer;
+    private ILogger _logger;
     private bool _isDisposed;
 
     public CLIClient(
         FileReaderRegistry readerRegistry,
         IWordPreprocessor wordPreprocessor,
         IWordStatistics wordStatistics,
-        IWordRenderer wordRenderer)
+        IWordRenderer wordRenderer,
+        ILogger logger)
     {
         _readerRegistry = readerRegistry;
         _wordPreprocessor = wordPreprocessor;
         _wordStatistics = wordStatistics;
         _wordRenderer = wordRenderer;
+        _logger = logger;
     }
     
     public void RunOptions(Options options)
     {
+        ObjectDisposedException.ThrowIf(_isDisposed, this);
+        
         Bitmap bitmap = null;
         if (options.InputFile != null!)
         {
@@ -40,6 +47,7 @@ public class CLIClient : IDisposable
                 var sb = new StringBuilder();
                 while (fileReader.TryGetNextLine(out var line))
                     sb.AppendLine(line);
+                fileReader.Dispose();
                 
                 var words = _wordPreprocessor.ExtractWords(sb.ToString());
                 _wordStatistics.Populate(words);
@@ -47,27 +55,27 @@ public class CLIClient : IDisposable
             }
             else
             {
-                Console.WriteLine("Input file is not supported.");
+                _logger.Error("Input file is not supported.");
             }
         }
 
         if (options.OutputFile != null!)
         {
             if (bitmap != null)
-                bitmap.Save(options.OutputFile);
+            {
+                bitmap.Save(options.OutputFile, ImageFormat.Png);
+                _logger.Info($"Output file is saved to {options.OutputFile}");
+            }
+            else
+            {
+                _logger.Error("An internal error occured when generating the image.");
+            }
         }
-    }
-    
-    public void HandleParseError(IEnumerable<Error> errors)
-    {
-        // TODO
-        throw new NotImplementedException();
     }
 
     public void Dispose()
     {
         Dispose(true);
-        GC.SuppressFinalize(this);
     }
 
     protected virtual void Dispose(bool disposing)
