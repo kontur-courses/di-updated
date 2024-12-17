@@ -144,4 +144,9 @@
       <Content Include="bin\Debug\net8.0\zh-Hant\Microsoft.VisualStudio.TestPlatform.ObjectModel.resources.dll" />
     </ItemGroup>
 
+    <ItemGroup>
+      <None Include="bin\Debug\net8.0\Dictionaries\enUS.aff" />
+      <None Include="bin\Debug\net8.0\Dictionaries\enUS.dic" />
+    </ItemGroup>
+
 </Project>
