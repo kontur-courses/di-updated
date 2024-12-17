@@ -7,4 +7,12 @@
         <Nullable>enable</Nullable>
     </PropertyGroup>
 
+    <ItemGroup>
+      <Content Include="bin\Debug\net8.0\TagCloud.deps.json" />
+      <Content Include="bin\Debug\net8.0\TagCloud.dll" />
+      <Content Include="bin\Debug\net8.0\TagCloud.exe" />
+      <Content Include="bin\Debug\net8.0\TagCloud.pdb" />
+      <Content Include="bin\Debug\net8.0\TagCloud.runtimeconfig.json" />
+    </ItemGroup>
+
 </Project>
