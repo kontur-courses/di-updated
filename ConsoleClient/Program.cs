@@ -1,5 +1,4 @@
-﻿using System.Drawing;
-using CommandLine;
+﻿using CommandLine;
 using ConsoleClient;
 using Pure.DI;
 using TagCloud.FileReader;
@@ -17,15 +16,10 @@ DI.Setup("Composition")
     .Bind<IWordDelimiterProvider>().To<WordDelimiterProviderImpl>()
     .Bind<IWordStatistics>().To<WordStatisticsImpl>()
     .Bind<IWordRenderer>().To<TagCloudWordRenderer>()
-    .Bind<ICircularCloudLayouter>().To<ICircularCloudLayouter>(
-        ctx =>
-        {
-            ctx.Inject<ISettingsProvider>(out var settingsProvider);
-            return new CircularCloudLayouterImpl(new Point(250, 250), settingsProvider);
-        })
-    .Bind<ISettingsProvider>().To<SettingsProviderImpl>()
-    .Bind<ILogger>().To<ConsoleLogger>()
+    .Bind<ICircularCloudLayouter>().To<CircularCloudLayouterImpl>()
     .Hint(Hint.Resolve, "Off")
+    .Bind().As(Lifetime.Singleton).To<ConsoleLogger>()
+    .Bind().As(Lifetime.Singleton).To<SettingsProviderImpl>()
     .Bind().As(Lifetime.Singleton).To<CLIClient>()
     .Root<CLIClient>("Client");
 
@@ -33,5 +27,4 @@ using var composition = new Composition();
 var client = composition.Client;
 
 Parser.Default.ParseArguments<Options>(args)
-    .WithParsed(client.RunOptions)
-    .WithNotParsed(client.HandleParseError);
+    .WithParsed(client.RunOptions);
