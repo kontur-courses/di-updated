@@ -1,0 +1,13 @@
+{
+  "version": 2,
+  "dgSpecHash": "64m5C58H5X//7SIpPIRUW49DqTJ0WpAUuOQ8YW06Ae1aKpz+GuDdBN9lIjaIzKIdz2VwPjjZNEmJx4t+LIvNGQ==",
+  "success": true,
+  "projectFilePath": "F:\\Study\\Project\\Shpora2024\\di-updated\\TagCloudConsoleApp\\TagCloudConsoleApp.csproj",
+  "expectedPackageFiles": [
+    "C:\\Users\\Дима\\.nuget\\packages\\autofac\\8.1.1\\autofac.8.1.1.nupkg.sha512",
+    "C:\\Users\\Дима\\.nuget\\packages\\microsoft.win32.systemevents\\9.0.0\\microsoft.win32.systemevents.9.0.0.nupkg.sha512",
+    "C:\\Users\\Дима\\.nuget\\packages\\system.diagnostics.diagnosticsource\\8.0.1\\system.diagnostics.diagnosticsource.8.0.1.nupkg.sha512",
+    "C:\\Users\\Дима\\.nuget\\packages\\system.drawing.common\\9.0.0\\system.drawing.common.9.0.0.nupkg.sha512"
+  ],
+  "logs": []
+}
