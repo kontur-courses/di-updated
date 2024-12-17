@@ -15,4 +15,8 @@
       <Content Include="bin\Debug\net8.0\TagCloud.runtimeconfig.json" />
     </ItemGroup>
 
+    <ItemGroup>
+      <PackageReference Include="WeCantSpell.Hunspell" Version="5.2.1" />
+    </ItemGroup>
+
 </Project>
