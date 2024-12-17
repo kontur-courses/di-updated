@@ -1,5 +1,6 @@
 using System.Drawing;
 using System.Drawing.Drawing2D;
+using TagCloud.Logger;
 using TagCloud.SettingsProvider;
 using TagCloud.TagsCloudVisualization;
 using TagCloud.WordStatistics;
@@ -8,7 +9,8 @@ namespace TagCloud.WordRenderer;
 
 public class TagCloudWordRenderer(
     ICircularCloudLayouter cloudLayouter,
-    ISettingsProvider settingsProvider
+    ISettingsProvider settingsProvider,
+    ILogger logger
     ) : IWordRenderer
 {
 #pragma warning disable CA1416
@@ -24,8 +26,10 @@ public class TagCloudWordRenderer(
         graphics.InterpolationMode = InterpolationMode.HighQualityBicubic;
         graphics.PixelOffsetMode = PixelOffsetMode.HighQuality;
         
-        foreach (var word in statistics.GetWords())
+        var words = statistics.GetWords().ToArray();
+        for (var i = 0; i < words.Length; i++)
         {
+            var word = words[i];
             var frequency = statistics.GetWordFrequency(word);
             var fontSize = settings.MinFontSize + (int)((settings.MaxFontSize - settings.MinFontSize) * frequency);
             var font = new Font(settings.Font, fontSize);
@@ -33,6 +37,7 @@ public class TagCloudWordRenderer(
             var renderSize = new Size(1 + (int)stringSize.Width, (int)stringSize.Height);
             
             var rectangle = cloudLayouter.PutNextRectangle(renderSize);
+            logger.ReportProgress($"Put {i + 1}/{words.Length} words", (double)i / (words.Length - 1));
             
             graphics.DrawString(word, font, new SolidBrush(settings.TextColor), rectangle);
             // graphics.DrawRectangle(new Pen(Color.Black, 2), rectangle);
