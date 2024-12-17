@@ -40,22 +40,29 @@ public class CLIClient : IDisposable
         Bitmap bitmap = null;
         if (options.InputFile != null!)
         {
-            var extension = Path.GetExtension(options.InputFile);
-            if (_readerRegistry.TryGetFileReader(extension, out var fileReader))
+            if (Path.Exists(options.InputFile))
             {
-                fileReader.OpenFile(Path.GetFullPath(options.InputFile));
-                var sb = new StringBuilder();
-                while (fileReader.TryGetNextLine(out var line))
-                    sb.AppendLine(line);
-                fileReader.Dispose();
-                
-                var words = _wordPreprocessor.ExtractWords(sb.ToString());
-                _wordStatistics.Populate(words);
-                bitmap = _wordRenderer.Render(_wordStatistics);
+                var extension = Path.GetExtension(options.InputFile);
+                if (_readerRegistry.TryGetFileReader(extension, out var fileReader))
+                {
+                    fileReader.OpenFile(Path.GetFullPath(options.InputFile));
+                    var sb = new StringBuilder();
+                    while (fileReader.TryGetNextLine(out var line))
+                        sb.AppendLine(line);
+                    fileReader.Dispose();
+
+                    var words = _wordPreprocessor.ExtractWords(sb.ToString());
+                    _wordStatistics.Populate(words);
+                    bitmap = _wordRenderer.Render(_wordStatistics);
+                }
+                else
+                {
+                    _logger.Error("Input file is not supported.");
+                }
             }
             else
             {
-                _logger.Error("Input file is not supported.");
+                _logger.Error($"Could not find input file: {Path.GetFullPath(options.InputFile)}");
             }
         }
 
@@ -65,10 +72,6 @@ public class CLIClient : IDisposable
             {
                 bitmap.Save(options.OutputFile, ImageFormat.Png);
                 _logger.Info($"Output file is saved to {Path.GetFullPath(options.OutputFile)}");
-            }
-            else
-            {
-                _logger.Error("An internal error occured when generating the image.");
             }
         }
     }
