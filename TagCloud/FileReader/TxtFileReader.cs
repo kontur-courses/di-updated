@@ -3,33 +3,26 @@ namespace TagCloud.FileReader;
 public class TxtFileReader : IFileReader
 {
     private StreamReader _streamReader = null!;
-    private bool _disposed = false;
 
     public string FileExtension { get => ".txt"; }
     
     public void Dispose()
     {
         Dispose(true);
-        GC.SuppressFinalize(this);
     }
 
     protected virtual void Dispose(bool disposing)
     {
-        if (!_disposed)
+        if (disposing)
         {
-            if (disposing)
-            {
-                if (_streamReader != null!)
-                    _streamReader.Dispose();
-            }
+            if (_streamReader != null!)
+                _streamReader.Dispose();
             _streamReader = null!;
-            _disposed = true;
         }
     }
 
     public void OpenFile(string filePath)
     {
-        ObjectDisposedException.ThrowIf(_disposed, this);
         if (_streamReader != null)
             throw new InvalidOperationException("File is already open");
         ArgumentNullException.ThrowIfNull(filePath);
@@ -46,8 +39,6 @@ public class TxtFileReader : IFileReader
 
     public bool TryGetNextLine(out string line)
     {
-        ObjectDisposedException.ThrowIf(_disposed, this);
-        
         line = String.Empty;
         if (_streamReader == null)
             throw new InvalidOperationException("File is not open");
