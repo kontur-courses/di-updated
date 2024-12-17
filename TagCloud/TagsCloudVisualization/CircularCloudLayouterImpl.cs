@@ -28,12 +28,12 @@ public class CircularCloudLayouterImpl : ICircularCloudLayouter
     private readonly double _angleStep;
     private float _startingStep;
     
-    public CircularCloudLayouterImpl(Point center, ISettingsProvider settingsProvider)
+    public CircularCloudLayouterImpl(ISettingsProvider settingsProvider)
     {
         _generatedLayout = new List<Rectangle>();
-        CloudCenter = center;
         
         var settings = settingsProvider.GetSettings();
+        CloudCenter = settings.CloudCenter;
         var diameter = Math.Min(settings.ImageSize.Width, settings.ImageSize.Height);
         _maxTracingDistance = (float)diameter / 2;
         
@@ -66,21 +66,21 @@ public class CircularCloudLayouterImpl : ICircularCloudLayouter
     {
         var found = false;
         var direction = GetNextDirection();
-        var resultList = new List<Rectangle>();
+        var resultList = new List<(Rectangle, float)>();
         var stepSum = 0.0f;
         var iterationCount = 0;
         while (_nextAngle != 0)
         {
             var step = _startingStep;
-            var result = Rectangle.Empty;
+            var rect = Rectangle.Empty;
             while (step < 1f && !found)
             {
                 (step, var availablePos) = FindNextAvailablePosByTracingLine(direction, step);
-                found = TryFindGoodRectanglePosition(availablePos, rectangleSize, out result);
+                found = TryFindGoodRectanglePosition(Point.Truncate(availablePos), rectangleSize, out rect);
             }
             
             if (found)
-                resultList.Add(result);
+                resultList.Add((rect, step));
             found = false;
             direction = GetNextDirection();
             stepSum += step;
@@ -91,7 +91,7 @@ public class CircularCloudLayouterImpl : ICircularCloudLayouter
         if (averageStep >= _startingStep + 0.05f)
             _startingStep = (float)Math.Round(averageStep, 2, MidpointRounding.ToZero);
 
-        return resultList.MinBy(rect => rect.RectangleCenter().SquaredDistanceTo(_cloudCenter));
+        return resultList.Count > 0 ? resultList.MinBy(tuple => tuple.Item2).Item1 : Rectangle.Empty;
     }
 
     private bool TryFindGoodRectanglePosition(Point posToPlace, Size rectangleSize, out Rectangle result)
@@ -143,7 +143,7 @@ public class CircularCloudLayouterImpl : ICircularCloudLayouter
         return false;
     }
 
-    private (float, Point) FindNextAvailablePosByTracingLine(PointF direction, float startingStep = 0.0f)
+    private (float, PointF) FindNextAvailablePosByTracingLine(PointF direction, float startingStep = 0.0f)
     {
         var nextPos = new PointF(
             CloudCenter.X + direction.X * _maxTracingDistance * _tracingStep,
@@ -167,7 +167,7 @@ public class CircularCloudLayouterImpl : ICircularCloudLayouter
                 CloudCenter.Y + direction.Y * _maxTracingDistance * currentStep);
         }
 
-        return (currentStep, Point.Truncate(nextPos));
+        return (currentStep, nextPos);
     }
 
     private PointF GetNextDirection()
