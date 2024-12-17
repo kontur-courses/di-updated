@@ -64,7 +64,7 @@ public class CLIClient : IDisposable
             if (bitmap != null)
             {
                 bitmap.Save(options.OutputFile, ImageFormat.Png);
-                _logger.Info($"Output file is saved to {options.OutputFile}");
+                _logger.Info($"Output file is saved to {Path.GetFullPath(options.OutputFile)}");
             }
             else
             {
