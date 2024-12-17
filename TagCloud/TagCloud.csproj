@@ -20,4 +20,9 @@
       <PackageReference Include="WeCantSpell.Hunspell" Version="5.2.1" />
     </ItemGroup>
 
+    <ItemGroup>
+      <None Include="bin\Debug\net8.0\Dictionaries\enUS.aff" />
+      <None Include="bin\Debug\net8.0\Dictionaries\enUS.dic" />
+    </ItemGroup>
+
 </Project>

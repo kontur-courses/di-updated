@@ -2,5 +2,5 @@ namespace TagCloud.WordsFilter;
 
 public interface IWordsFilter
 {
-    List<string> FilterWords(List<string> words);
+    List<string> ApplyFilter(List<string> words);
 }
