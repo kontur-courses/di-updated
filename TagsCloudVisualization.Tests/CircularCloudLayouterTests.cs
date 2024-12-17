@@ -25,8 +25,7 @@ public class CircularCloudLayouterTests
     [SetUp]
     public void SetUp()
     {
-        _circularCloudLayouter = new CircularCloudLayouterImpl(Point.Empty,
-            SettingsProviderImpl.DefaultSettingsProvider);
+        _circularCloudLayouter = new CircularCloudLayouterImpl(SettingsProviderImpl.TestSettingsProvider);
     }
 
     [OneTimeSetUp]
