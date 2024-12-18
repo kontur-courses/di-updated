@@ -1,8 +1,8 @@
-using TagsCloudVisualization.Draw;
+using System.Drawing;
 
 namespace TagsCloudVisualization.Saver;
 
 public interface IImageSaver
 {
-    public void SaveImageToFile(IRectangleDraftsman rectangleDraftsman, string filename);
+    public string SaveImageToFile(Bitmap bitmap);
 }

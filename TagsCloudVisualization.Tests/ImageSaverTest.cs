@@ -1,19 +1,18 @@
-using System.Drawing;
-using System.Runtime.InteropServices;
-using FluentAssertions;
+using FakeItEasy;
 using NUnit.Framework;
-using TagsCloudVisualization.CloudLayouter;
+using FluentAssertions;
+using System.Runtime.InteropServices;
 using TagsCloudVisualization.Draw;
-using TagsCloudVisualization.Extension;
-using TagsCloudVisualization.Generator;
 using TagsCloudVisualization.Saver;
+using TagsCloudVisualization.Settings;
+using TagsCloudVisualization.CloudLayouter;
+using TagsCloudVisualization.Generator;
 
 namespace TagsCloudVisualizationTests;
 
 [TestFixture]
 public class ImageSaverTest
 {
-    private Point center;
     private CircularCloudLayouter cloudLayouter;
     private RectangleDraftsman drawer;
     private ImageSaver imageSaver;
@@ -21,17 +20,17 @@ public class ImageSaverTest
     [SetUp]
     public void SetUp()
     {
-        center = new Point(0, 0);
-        cloudLayouter = new CircularCloudLayouter(center, new RectangleGenerator(), 10);
+        var mockPositionGenerator = A.Fake<IPositionGenerator>();
+        cloudLayouter = new CircularCloudLayouter(mockPositionGenerator);
         drawer = new RectangleDraftsman(1500, 1500);
-        imageSaver = new ImageSaver();
     }
 
     [TestCase(null)]
     public void CreateImage_OnInvalidParameters_ThrowsArgumentException(string filename)
     {
+        imageSaver = new ImageSaver(new SaveSettings(filename, "png"));
         drawer.CreateImage(cloudLayouter.Rectangles);
-        var action = () => imageSaver.SaveImageToFile(drawer, filename);
+        var action = () => imageSaver.SaveImageToFile(drawer.Bitmap);
         action.Should().Throw<ArgumentException>();
     }
 
@@ -39,8 +38,9 @@ public class ImageSaverTest
     [TestCase("@#$\\")]
     public void CreateImage_OnInvalidParameters_ThrowsDirectoryNotFoundException(string filename)
     {
+        imageSaver = new ImageSaver(new SaveSettings(filename, "png"));
         drawer.CreateImage(cloudLayouter.Rectangles);
-        var action = () => imageSaver.SaveImageToFile(drawer, filename);
+        var action = () => imageSaver.SaveImageToFile(drawer.Bitmap);
         action.Should().Throw<DirectoryNotFoundException>();
     }
 
@@ -52,8 +52,9 @@ public class ImageSaverTest
     [TestCase("")]
     public void CreateImage_OnInvalidParameters_ThrowsExternalException(string filename)
     {
+        imageSaver = new ImageSaver(new SaveSettings(filename, "png"));
         drawer.CreateImage(cloudLayouter.Rectangles);
-        var action = () => imageSaver.SaveImageToFile(drawer, filename);
+        var action = () => imageSaver.SaveImageToFile(drawer.Bitmap);
         action.Should().Throw<ExternalException>();
     }
 }

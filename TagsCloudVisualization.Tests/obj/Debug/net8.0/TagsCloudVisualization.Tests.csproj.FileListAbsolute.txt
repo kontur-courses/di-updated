@@ -208,3 +208,8 @@ F:\Study\Project\Shpora2024\di-updated\TagsCloudVisualization.Tests\obj\Debug\ne
 F:\Study\Project\Shpora2024\di-updated\TagsCloudVisualization.Tests\obj\Debug\net8.0\TagsCloudVisualization.Tests.pdb
 F:\Study\Project\Shpora2024\di-updated\TagsCloudVisualization.Tests\obj\Debug\net8.0\TagsCloudVisualization.Tests.genruntimeconfig.cache
 F:\Study\Project\Shpora2024\di-updated\TagsCloudVisualization.Tests\obj\Debug\net8.0\ref\TagsCloudVisualization.Tests.dll
+F:\Study\Project\Shpora2024\di-updated\TagsCloudVisualization.Tests\bin\Debug\net8.0\Castle.Core.dll
+F:\Study\Project\Shpora2024\di-updated\TagsCloudVisualization.Tests\bin\Debug\net8.0\FakeItEasy.dll
+F:\Study\Project\Shpora2024\di-updated\TagsCloudVisualization.Tests\bin\Debug\net8.0\System.Diagnostics.EventLog.dll
+F:\Study\Project\Shpora2024\di-updated\TagsCloudVisualization.Tests\bin\Debug\net8.0\runtimes\win\lib\net6.0\System.Diagnostics.EventLog.Messages.dll
+F:\Study\Project\Shpora2024\di-updated\TagsCloudVisualization.Tests\bin\Debug\net8.0\runtimes\win\lib\net6.0\System.Diagnostics.EventLog.dll

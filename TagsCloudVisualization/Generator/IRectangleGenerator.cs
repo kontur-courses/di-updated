@@ -4,5 +4,5 @@ namespace TagsCloudVisualization.Generator;
 
 public interface IRectangleGenerator
 {
-    public IEnumerable<Rectangle> GenerateRandomRectangles(int countRectangles);
+    public IEnumerable<Rectangle> GenerateRectangles(int countRectangles);
 }

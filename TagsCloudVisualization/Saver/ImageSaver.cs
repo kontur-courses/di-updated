@@ -1,15 +1,17 @@
-using System.Drawing.Imaging;
-using TagsCloudVisualization.Draw;
+using System.Drawing;
+using TagsCloudVisualization.Settings;
 
 namespace TagsCloudVisualization.Saver;
 
-public class ImageSaver
+public class ImageSaver(SaveSettings settings) : IImageSaver
 {
-    public void SaveImageToFile(IRectangleDraftsman rectangleDraftsman, string filename)
+    public string SaveImageToFile(Bitmap bitmap)
     {
         #pragma warning disable CA1416
-        rectangleDraftsman.Bitmap.Save(filename, ImageFormat.Png);
+        bitmap.Save($"{settings.Filename}.{settings.Format}", settings.ImageFormat);
         #pragma warning restore CA1416
-        Console.WriteLine($"Tag cloud visualization saved to: {Path.GetFullPath(filename)}");
+        Console.WriteLine($"Tag cloud visualization saved to: {Path.GetFullPath(settings.Filename)}.{settings.Format}");
+
+        return Path.GetFullPath(settings.Filename);
     }
 }
