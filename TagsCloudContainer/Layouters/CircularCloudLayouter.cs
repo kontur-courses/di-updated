@@ -35,12 +35,28 @@ public class CircularCloudLayouter(AppConfig appConfig, Point center = new()) : 
             guessRectangle = new Rectangle(location, rectangleSize);
             radius += appConfig.RadiusStep;
             angle += appConfig.AngleStep;
-        } while (rectangles.Any(rect => rect.IntersectsWith(guessRectangle)));
+        } while (IsIntersecting(guessRectangle));
 
         return location;
     }
 
-    private Point GetPointOnSpiral()
+    private bool IsIntersecting(Rectangle rectangle)
+    {
+        var isIntersecting = false;
+        
+        foreach (var outerRectangle in rectangles)
+        {
+            if (rectangle.IntersectsWith(outerRectangle))
+            {
+                isIntersecting = true;
+                break;
+            }
+        }
+        
+        return isIntersecting;
+    }
+
+private Point GetPointOnSpiral()
     {
         var (sin, cos) = Math.SinCos(angle);
         var x = (int)(radius * cos) + center.X;

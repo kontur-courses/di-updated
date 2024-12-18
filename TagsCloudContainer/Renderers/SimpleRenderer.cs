@@ -5,8 +5,6 @@ namespace TagsCloudContainer.Renderers;
 
 public class SimpleRenderer(AppConfig appConfig) : IRenderer
 {
-    
-    
     private readonly List<Word> words = [];
 
     public void AddWord(Word word) => words.Add(word);
@@ -25,8 +23,8 @@ public class SimpleRenderer(AppConfig appConfig) : IRenderer
 
     public Size GetStringSize(string text, int fontSize)
     {
-        var font = new Font(appConfig.FontFamily, fontSize);
-        var graphics = Graphics.FromHwnd(IntPtr.Zero);
+        using var font = new Font(appConfig.FontFamily, fontSize);
+        using var graphics = Graphics.FromHwnd(IntPtr.Zero);
         var size = graphics.MeasureString(text, font);
 
         return size.ToSize();
@@ -35,7 +33,7 @@ public class SimpleRenderer(AppConfig appConfig) : IRenderer
     private void FillBackground(Graphics graphics, int width, int height)
     {
         var brushColor = ColorTranslator.FromHtml(appConfig.BackgroundColor);
-        var brush = new SolidBrush(brushColor);
+        using var brush = new SolidBrush(brushColor);
 
         graphics.FillRectangle(brush, 0, 0, width, height);
     }
@@ -43,11 +41,11 @@ public class SimpleRenderer(AppConfig appConfig) : IRenderer
     private void DrawWords(Graphics graphics)
     {
         var brushColor = ColorTranslator.FromHtml(appConfig.TextColor);
-        var brush = new SolidBrush(brushColor);
+        using var brush = new SolidBrush(brushColor);
 
         foreach (var word in words)
         {
-            var font = new Font(appConfig.FontFamily, word.FontSize);
+            using var font = new Font(appConfig.FontFamily, word.FontSize);
             var x = word.Position.X + appConfig.Width / 2;
             var y = word.Position.Y + appConfig.Height / 2;
 
