@@ -1,7 +1,7 @@
 using System.Drawing;
 using TagsCloudVisualization.Base;
-using TagsCloudVisualization.CloudLayouters;
 using TagsCloudVisualization.Extensions;
+using TagsCloudVisualization.Layouters;
 using TagsCloudVisualization.Visualizers;
 
 namespace TagsCloudVisualization;
