@@ -15,7 +15,8 @@ public class WordStatisticsImpl : IWordStatistics
     public IEnumerable<string> GetWords()
     {
         return _wordCounts.Keys
-            .OrderByDescending(x => _wordCounts[x]);
+            .OrderByDescending(x => _wordCounts[x])
+            .ThenBy(x => x);
     }
 
     public void Populate(IEnumerable<string> words)
