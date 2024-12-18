@@ -1,27 +1,14 @@
 ﻿using System.Drawing;
-using TagsCloudVisualization.Extension;
 using TagsCloudVisualization.Generator;
+using TagsCloudVisualization.Extension;
 
 namespace TagsCloudVisualization.CloudLayouter;
 
-public class CircularCloudLayouter : ICloudLayouter
+public class CircularCloudLayouter(IPositionGenerator positionGenerator) : ICloudLayouter
 {
-    public List<Rectangle> Rectangles { get; }
-    private readonly Spiral spiral;
-    private readonly Point center;
+    public List<Rectangle> Rectangles { get; } = [];
+    private readonly Point center = positionGenerator.Center;
 
-    public CircularCloudLayouter(Point center, IRectangleGenerator rectangleGenerator, int countRectangles)
-    {
-        this.center = center;
-        spiral = new(center, 2);
-        Rectangles = new(countRectangles);
-        
-        foreach (var rectangle in rectangleGenerator.GenerateRandomRectangles(countRectangles))
-        {
-            PutNextRectangle(rectangle.Size);
-        }
-    }
-    
     public Rectangle PutNextRectangle(Size sizeRectangle)
     {
         var rectangle = FindNextValidRectanglePosition(sizeRectangle);
@@ -40,7 +27,7 @@ public class CircularCloudLayouter : ICloudLayouter
 
         while (true)
         {
-            rectangle = new(spiral.GetNextPoint(), sizeRectangle);
+            rectangle = new(positionGenerator.GetNextPoint(), sizeRectangle);
             if (!rectangle.IntersectsWithAnyOf(Rectangles))
                 break;
         }

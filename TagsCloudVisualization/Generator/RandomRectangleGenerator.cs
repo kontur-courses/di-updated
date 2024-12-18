@@ -2,9 +2,9 @@ using System.Drawing;
 
 namespace TagsCloudVisualization.Generator;
 
-public class RectangleGenerator : IRectangleGenerator
+public class RandomRectangleGenerator : IRectangleGenerator
 {
-    public IEnumerable<Rectangle> GenerateRandomRectangles(int countRectangles)
+    public IEnumerable<Rectangle> GenerateRectangles(int countRectangles)
     {
         var random = new Random();
         

@@ -26,8 +26,7 @@ public class PointExtensionTest
         result.Y.Should().Be(yResult);
     }
 
-    [Test]
-    [TestCaseSource(nameof(PointerSumTestCases))]
+    [Test, TestCaseSource(nameof(PointerSumTestCases))]
     public Point Add_ReturnsSumOfPointCoordinates(
         Point point1,
         Point point2,

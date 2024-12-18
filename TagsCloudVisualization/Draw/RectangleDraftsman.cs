@@ -1,4 +1,3 @@
-using System.Collections;
 using System.Drawing;
 
 namespace TagsCloudVisualization.Draw;
@@ -28,10 +27,5 @@ public class RectangleDraftsman : IRectangleDraftsman
             graphics.DrawRectangle(new Pen(Color.BlueViolet), rectangle);
         }
         #pragma warning restore CA1416
-    }
-
-    public void CreateImage(IEnumerable objects)
-    {
-        throw new NotImplementedException();
     }
 }
