@@ -1,4 +1,5 @@
 using System.Drawing;
+using System.Globalization;
 using System.Text;
 using CommandLine;
 
@@ -35,13 +36,19 @@ public class Options
     [Option('c', "word-color",
         Required = false,
         HelpText = "Words color")]
-    public Color WordsColor { get; set; } = Color.White;
+    public Color ForegroundColor { get; set; } = Color.White;
 
-    [Option('n', "image-name", 
+    [Option("image-name", 
         Required = false, 
-        HelpText = "Path to save (relative)")]
-    public string ImageName { get; set; } = "result.png";
+        HelpText = "Image name")]
+    public string ImageName { get; set; } = "result";
 
+    [Option("image-format",
+        Required = false,
+        HelpText = "Image format")]
+    public string ImageFormat { get; set; } = "png";
+    
+    
     [Option("angle-offset",
         Required = false,
         HelpText = "Delta of the angle for the spiral.")]
@@ -56,4 +63,9 @@ public class Options
         Required = false,
         HelpText = "The center of the cloud in the image")]
     public Point Center { get; set; } = new(1920 / 2, 1080 / 2);
+    
+    [Option("culture", 
+        Required = false, 
+        HelpText = "CSV culture information")]
+    public CultureInfo Culture { get; set; } = CultureInfo.InvariantCulture;
 }
