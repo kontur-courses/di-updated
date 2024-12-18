@@ -1,4 +1,5 @@
-﻿using TagsCloudVisualization.TagLayouters;
+﻿using System.Drawing;
+using TagsCloudVisualization.TagLayouters;
 using TagsCloudVisualization.Visualization;
 
 namespace TagsCloudVisualization;
@@ -14,7 +15,7 @@ public class TagCloudCreator
         this.imageDrawer = imageDrawer;
     }
 
-    public void CreateImage()
+    public Bitmap CreateImage()
     {
         throw new NotImplementedException();
     }
