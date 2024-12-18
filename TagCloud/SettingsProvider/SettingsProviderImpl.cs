@@ -31,6 +31,7 @@ public class SettingsProviderImpl(ILogger? logger) : ISettingsProvider
         TextColor = Color.Black,
         TracingStep = 0.001f,
         AngleStep = Math.PI / 32,
+        Density = 0.1f,
         CloudCenter = new Point(350, 350)
     };
 
@@ -46,6 +47,7 @@ public class SettingsProviderImpl(ILogger? logger) : ISettingsProvider
         TextColor = Color.Black,
         TracingStep = 0.001f,
         AngleStep = Math.PI / 32,
+        Density = 0.1f,
         CloudCenter = new Point(500, 500)
     };
     

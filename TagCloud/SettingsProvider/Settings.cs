@@ -12,5 +12,6 @@ public record Settings
     public Size ImageSize { get; init; }
     public float TracingStep { get; init; }
     public double AngleStep { get; init; }
+    public float Density { get; init; }
     public Point CloudCenter { get; init; }
 }

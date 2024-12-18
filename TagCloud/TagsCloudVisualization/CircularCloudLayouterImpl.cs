@@ -27,6 +27,7 @@ public class CircularCloudLayouterImpl : ICircularCloudLayouter
     private double _nextAngle;
     private readonly double _angleStep;
     private float _startingStep;
+    private float _density;
     
     public CircularCloudLayouterImpl(ISettingsProvider settingsProvider)
     {
@@ -39,6 +40,7 @@ public class CircularCloudLayouterImpl : ICircularCloudLayouter
         
         _tracingStep = settings.TracingStep;
         _angleStep = settings.AngleStep;
+        _density = settings.Density;
     }
 
     public Rectangle PutNextRectangle(Size rectangleSize)
@@ -88,7 +90,7 @@ public class CircularCloudLayouterImpl : ICircularCloudLayouter
         }
         
         var averageStep = stepSum / iterationCount;
-        if (averageStep >= _startingStep + 0.05f)
+        if (averageStep >= _startingStep + _density)
             _startingStep = (float)Math.Round(averageStep, 2, MidpointRounding.ToZero);
 
         return resultList.Count > 0 ? resultList.MinBy(tuple => tuple.Item2).Item1 : Rectangle.Empty;
