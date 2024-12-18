@@ -1,5 +1,3 @@
-using System.Drawing;
-
 namespace TagsCloudVisualization;
 
 public class WordHandler
@@ -15,7 +13,7 @@ public class WordHandler
             var normalizedWord = word.ToLower();
 
             if (!MorphologicalProcessing.IsExcludedWord(word))
-            {   
+            {
                 if (keyValueWords.ContainsKey(normalizedWord))
                     keyValueWords[normalizedWord]++;
                 else

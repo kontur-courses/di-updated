@@ -139,4 +139,27 @@ public class TestsCloudVisualization
                 rectanglesTemp[i].IntersectsWith(rectanglesTemp[j]).Should().BeFalse();
         }
     }
+    [Test]
+    public void Test_TagCloud()
+    {
+        var rectanglesSizes = new List<Size>
+        {
+            new Size(10, 5),
+            new Size(8, 8),
+            new Size(12, 3),
+            new Size(6, 10)
+        };
+
+        foreach (var size in rectanglesSizes)
+        {
+            circularCloudLayouter.PutNextRectangle(size);
+        }
+
+        List<Rectangle> rectanglesTemp = circularCloudLayouter.GetRectangles;
+        for (int i = 0; i < rectanglesTemp.Count; i++)
+        {
+            for (int j = i + 1; j < rectanglesTemp.Count; j++)
+                rectanglesTemp[i].IntersectsWith(rectanglesTemp[j]).Should().BeFalse();
+        }
+    }
 }
