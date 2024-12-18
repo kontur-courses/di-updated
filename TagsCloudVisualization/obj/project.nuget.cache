@@ -1,0 +1,11 @@
+{
+  "version": 2,
+  "dgSpecHash": "HcRLBD0+PprrofPfIoO3+brQEyBnwDMU1VG5bWfy8i1PL1GBGhmGykXejMR49HO/Rbz/yA8PLAUVZh6HU4i7iQ==",
+  "success": true,
+  "projectFilePath": "F:\\Study\\Project\\Shpora2024\\di-updated\\TagsCloudVisualization\\TagsCloudVisualization.csproj",
+  "expectedPackageFiles": [
+    "C:\\Users\\Дима\\.nuget\\packages\\microsoft.win32.systemevents\\9.0.0\\microsoft.win32.systemevents.9.0.0.nupkg.sha512",
+    "C:\\Users\\Дима\\.nuget\\packages\\system.drawing.common\\9.0.0\\system.drawing.common.9.0.0.nupkg.sha512"
+  ],
+  "logs": []
+}
