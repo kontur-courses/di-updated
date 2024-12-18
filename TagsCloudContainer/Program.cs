@@ -2,7 +2,6 @@ using Autofac;
 using TagsCloudContainer;
 using TagsCloudContainer.Layouters;
 using TagsCloudContainer.Renderers;
-using TagsCloudContainer.TextProviders;
 using TagsCloudContainer.TextProviders.Factory;
 using TagsCloudContainer.WordsPreprocessor;
 

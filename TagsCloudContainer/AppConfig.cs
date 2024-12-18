@@ -9,7 +9,7 @@ public class AppConfig
     public double AngleStep { get; set; } = 0.01;
     public double RadiusStep { get; set; } = 0.01;
     public string FontFamily { get; set; } = "Arial";
-    public string TextFilePath { get; set; } = "./docx.docx";
+    public string TextFilePath { get; set; } = "./text.txt";
     public string OutputPath { get; set; } = "./";
     public string Filename { get; set; } = "render.png";
     public string BackgroundColor { get; set; } = "#000000";
