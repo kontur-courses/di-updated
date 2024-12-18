@@ -6,8 +6,8 @@ using NUnit.Framework;
 using NUnit.Framework.Interfaces;
 using NUnit.Framework.Internal;
 using TagsCloudVisualization.Base;
-using TagsCloudVisualization.CloudLayouters;
 using TagsCloudVisualization.Extensions;
+using TagsCloudVisualization.Layouters;
 using TagsCloudVisualization.Visualizers;
 
 namespace TagsCloudVisualizationTests;
