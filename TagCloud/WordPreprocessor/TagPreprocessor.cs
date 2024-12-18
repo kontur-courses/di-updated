@@ -18,12 +18,12 @@ public class TagPreprocessor(
             .Where(IsGoodWord);
     }
 
-    public string ProcessWord(string word)
+    private string ProcessWord(string word)
     {
         return word.ToLower();
     }
 
-    public bool IsGoodWord(string word)
+    private bool IsGoodWord(string word)
     {
         return !boringWordProvider.IsBoring(word);
     }
