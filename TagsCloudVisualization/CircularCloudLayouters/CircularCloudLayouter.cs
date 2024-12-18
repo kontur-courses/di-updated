@@ -3,7 +3,7 @@ using TagsCloudVisualization.LayoutAlgorithms;
 
 namespace TagsCloudVisualization.CircularCloudLayouters;
 
-public class CircularCloudLayouter
+public class CircularCloudLayouter : ICircularCloudLayouter
 {
     private readonly ILayoutAlgorithm layoutAlgorithm;
     private readonly List<Rectangle> addedRectangles = [];
