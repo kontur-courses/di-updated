@@ -1,6 +1,6 @@
 using FluentAssertions;
 using SkiaSharp;
-using TagCloud;
+using TagCloud.Utility;
 
 namespace TagCloudTests;
 
@@ -22,7 +22,7 @@ public class RandomExtensionTests
     }
 
     [Test]
-    public void NextSkSize_ShouldReturnExpectedNextSize()
+    public void NextSkSize_ShouldReturnExpectedNextSkSize()
     {
         var seed = random.Next();
         var testRandom = new Random(seed);
@@ -37,7 +37,7 @@ public class RandomExtensionTests
     }
 
     [Test]
-    public void NextSkPoint_ShouldReturnExpectedNextPoint()
+    public void NextSkPoint_ShouldReturnExpectedNextSkPoint()
     {
         var seed = random.Next();
         var pointRandomizer = new Random(seed);

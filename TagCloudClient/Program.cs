@@ -1,3 +1,10 @@
-﻿// See https://aka.ms/new-console-template for more information
+﻿
+namespace TagCloudClient;
 
-Console.WriteLine("Hello, World!");
+internal class Program
+{
+    public static void Main(string[] args)
+    {
+        // TODO: console application goes here
+    }
+}

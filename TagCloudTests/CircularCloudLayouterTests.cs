@@ -1,8 +1,7 @@
 using FluentAssertions;
-using NUnit.Framework.Interfaces;
 using SkiaSharp;
-using TagCloud;
 using TagCloud.CloudLayouter;
+using TagCloud.Utility;
 
 namespace TagCloudTests;
 
@@ -17,21 +16,6 @@ public class CircularCloudLayouterTests
     public void Setup()
     {
         circularCloudLayouter = new CircularCloudLayouter(new SKPoint(0, 0));
-    }
-
-    [TearDown]
-    public void TearDown()
-    {
-        var currentContext = TestContext.CurrentContext;
-        if (currentContext.Result.Outcome.Status != TestStatus.Failed) return;
-
-        var visualizer = new TagCloudImageGenerator();
-        var bitmap = visualizer.CreateBitmap(circularCloudLayouter.Rectangles.ToList());
-
-        var pathToFile = TagCloudSaver
-            .SaveAsPng(bitmap, Path.Combine(ImagesDirectory, currentContext.Test.Name));
-        
-        TestContext.Out.WriteLine($"Tag cloud visualization saved to file {pathToFile}.png");
     }
 
     [Test]

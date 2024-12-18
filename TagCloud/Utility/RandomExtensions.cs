@@ -1,6 +1,6 @@
 using SkiaSharp;
 
-namespace TagCloud;
+namespace TagCloud.Utility;
 
 public static class RandomExtensions
 {

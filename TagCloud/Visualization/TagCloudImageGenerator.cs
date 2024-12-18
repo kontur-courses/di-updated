@@ -1,6 +1,6 @@
 using SkiaSharp;
 
-namespace TagCloud;
+namespace TagCloud.Visualization;
 
 public class TagCloudImageGenerator
 {
