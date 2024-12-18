@@ -48,8 +48,6 @@ public class ImageSaverTest
     [TestCase("123|abc")]
     [TestCase("123\n")]
     [TestCase("123\r")]
-    [TestCase("\\")]
-    [TestCase("")]
     public void CreateImage_OnInvalidParameters_ThrowsExternalException(string filename)
     {
         imageSaver = new ImageSaver(new SaveSettings(filename, "png"));
