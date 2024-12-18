@@ -1,4 +1,5 @@
 ﻿using TagsCloudContainer.Layouters;
+using TagsCloudContainer.Layouters.Factory;
 using TagsCloudContainer.Renderers;
 using TagsCloudContainer.WordsPreprocessor;
 using TagsCloudContainer.TextProviders.Factory;
@@ -7,7 +8,7 @@ namespace TagsCloudContainer;
 
 public class App(
     IRenderer render,
-    ILayouter layout,
+    ILayouterFactory layoutFactory,
     IWordsProviderFactory wordsProviderFactory,
     IWordsPreprocessor wordsFormatter,
     AppConfig appConfig)
@@ -16,6 +17,9 @@ public class App(
     {
         appConfig.Validate();
         var wordsProvider = wordsProviderFactory.CreateProvider(appConfig.TextFilePath);
+        var layout = layoutFactory.CreateLayouter();
+        
+        Console.WriteLine(appConfig.LayoutType);
         var words = wordsFormatter.PreprocessWords(wordsProvider.GetWords());
         var histogram = CalculateWordFrequency(words);
         

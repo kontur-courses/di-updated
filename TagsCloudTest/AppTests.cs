@@ -2,6 +2,7 @@
 using FluentAssertions;
 using TagsCloudContainer;
 using TagsCloudContainer.Layouters;
+using TagsCloudContainer.Layouters.Factory;
 using TagsCloudContainer.Renderers;
 using TagsCloudContainer.TextProviders.Factory;
 using TagsCloudContainer.WordsPreprocessor;
@@ -22,7 +23,7 @@ public class AppTests
         };
 
         var renderer = new SimpleRenderer(config);
-        var layouter = new CircularCloudLayouter(config);
+        var layouter = new LayouterFactory(config);
         var provider = new WordsProviderFactory(config);
         var preprocessor = new WordsPreprocessor(config);
         app = new App(renderer, layouter, provider, preprocessor, config);

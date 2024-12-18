@@ -1,5 +1,5 @@
 using TagsCloudContainer;
-using TagsCloudContainer.Layouters;
+using TagsCloudContainer.Layouters.Factory;
 using TagsCloudContainer.Renderers;
 using TagsCloudContainer.TextProviders.Factory;
 using TagsCloudContainer.WordsPreprocessor;
@@ -16,7 +16,7 @@ var appConfig = new AppConfig
 builder.Services.AddControllersWithViews();
 
 builder.Services.AddScoped<App>();
-builder.Services.AddScoped<ILayouter, CircularCloudLayouter>();
+builder.Services.AddScoped<ILayouterFactory, LayouterFactory>();
 builder.Services.AddScoped<IRenderer, SimpleRenderer>();
 
 builder.Services.AddSingleton(appConfig);

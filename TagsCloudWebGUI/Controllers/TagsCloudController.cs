@@ -24,6 +24,7 @@ public class TagsCloudController(AppConfig appConfig, App app) : Controller
         appConfig.Height = config.Height;
         appConfig.AngleStep = config.AngleStep;
         appConfig.RadiusStep = config.RadiusStep;
+        appConfig.LayoutType = config.LayoutType;
         
         if (!string.IsNullOrEmpty(excludedWords))
         {

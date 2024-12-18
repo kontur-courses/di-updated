@@ -1,9 +1,12 @@
-﻿namespace TagsCloudContainer;
+﻿using TagsCloudContainer.Layouters;
+
+namespace TagsCloudContainer;
 
 public class AppConfig
 {
-    public int Width { get; set; } = 2000;
-    public int Height { get; set; } = 2000;
+    public LayoutType LayoutType { get; set; } = LayoutType.Circular;
+    public int Width { get; set; } = 3000;
+    public int Height { get; set; } = 3000;
     public int MaxSize { get; set; } = 100;
     public int MinSize { get; set; } = 10;
     public double AngleStep { get; set; } = 0.01;
