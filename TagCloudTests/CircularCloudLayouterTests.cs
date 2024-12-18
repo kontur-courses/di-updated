@@ -9,7 +9,6 @@ namespace TagCloudTests;
 [TestOf(typeof(CircularCloudLayouter))]
 public class CircularCloudLayouterTests
 {
-    private const string ImagesDirectory = "../../../failedTests";
     private CircularCloudLayouter circularCloudLayouter;
 
     [SetUp]
