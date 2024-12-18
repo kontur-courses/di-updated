@@ -10,6 +10,7 @@
     </PropertyGroup>
 
     <ItemGroup>
+        <PackageReference Include="ApprovalTests" Version="6.0.0" />
         <PackageReference Include="Autofac" Version="8.1.1" />
         <PackageReference Include="CommandLineParser" Version="2.9.1" />
         <PackageReference Include="coverlet.collector" Version="6.0.0"/>
@@ -110,6 +111,8 @@
       <Content Include="bin\Debug\net8.0\ru\Microsoft.TestPlatform.CrossPlatEngine.resources.dll" />
       <Content Include="bin\Debug\net8.0\ru\Microsoft.VisualStudio.TestPlatform.Common.resources.dll" />
       <Content Include="bin\Debug\net8.0\ru\Microsoft.VisualStudio.TestPlatform.ObjectModel.resources.dll" />
+      <Content Include="bin\Debug\net8.0\Samples\text.csv" />
+      <Content Include="bin\Debug\net8.0\Samples\text.docx" />
       <Content Include="bin\Debug\net8.0\Samples\text.txt" />
       <Content Include="bin\Debug\net8.0\System.Configuration.ConfigurationManager.dll" />
       <Content Include="bin\Debug\net8.0\System.Drawing.Common.dll" />
@@ -148,6 +151,12 @@
     <ItemGroup>
       <None Include="bin\Debug\net8.0\Dictionaries\enUS.aff" />
       <None Include="bin\Debug\net8.0\Dictionaries\enUS.dic" />
+      <None Include="bin\Debug\net8.0\sample.csv" />
+      <None Include="bin\Debug\net8.0\sample.docx" />
+      <None Include="bin\Debug\net8.0\sample.txt" />
+      <None Include="bin\Debug\net8.0\Samples\sample.csv" />
+      <None Include="bin\Debug\net8.0\Samples\sample.docx" />
+      <None Include="bin\Debug\net8.0\Samples\sample.txt" />
     </ItemGroup>
 
 </Project>

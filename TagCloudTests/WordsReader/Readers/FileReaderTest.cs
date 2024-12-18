@@ -1,26 +1,30 @@
+using System.Globalization;
 using System.Text;
 using FluentAssertions;
 using TagCloud.WordsReader;
 using TagCloud.WordsReader.Readers;
-using TagCloud.WordsReader.Settings;
 
 namespace TagCloudTests.WordsReader.Readers;
 
 [TestFixture]
-[TestOf(typeof(FileReader))]
-public class FileReaderTest
+public class WordsReadersTest
 {
-    private const string FilePath = "Samples/text.txt";
+    private const string FileContent = "Hello world? Hello world!";
 
-    [Test]
-    public void FileReader_ReadWords_ShouldReadAllWords()
+    private static IEnumerable<TestCaseData> WordsReadersTestCases
     {
-        var settings = new FileReaderSettings(FilePath, Encoding.UTF8);
-        var reader = new FileReader(settings);
-        var fileContent = File.ReadAllLines(FilePath, Encoding.UTF8).ToText(" ");
+        get
+        {
+            yield return new TestCaseData(new WordFileReader("Samples/text.docx"));
+            yield return new TestCaseData(new FileReader("Samples/text.txt", Encoding.UTF8));
+            yield return new TestCaseData(new CsvFileReader("Samples/text.csv", CultureInfo.InvariantCulture));
+        }
+    }
 
+    [TestCaseSource(nameof(WordsReadersTestCases))]
+    public void WordsReaders_ReadWords_ShouldReadAllWords(IWordsReader reader)
+    {
         var words = reader.ReadWords();
-
-        words.ToText(" ").Should().Be(fileContent);
+        words.ToText(" ").Should().Be(FileContent);
     }
 }
