@@ -1,4 +1,5 @@
 using System.Drawing;
+using TagCloud.CloudLayouter.PointLayouter.Settings.Generators;
 
 namespace TagCloud.CloudLayouter.PointLayouter.Generators;
 
@@ -18,6 +19,11 @@ public class FermatSpiralPointsGenerator : IPointsGenerator
 
         _angleOffset = angleOffset * Math.PI / 180;
         _radius = radius;
+    }
+
+    public FermatSpiralPointsGenerator(FermatSpiralSettings settings)
+        : this(settings.Radius, settings.AngleOffset)
+    {
     }
 
     public IEnumerable<Point> GeneratePoints(Point spiralCenter)

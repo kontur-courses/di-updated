@@ -1,6 +1,7 @@
 using System.Drawing;
 using TagCloud.CloudLayouter.Extensions;
 using TagCloud.CloudLayouter.PointLayouter.Generators;
+using TagCloud.CloudLayouter.PointLayouter.Settings;
 
 namespace TagCloud.CloudLayouter.PointLayouter;
 
@@ -16,7 +17,11 @@ public class CircularCloudLayouter(Point layoutCenter, IPointsGenerator pointsGe
     public CircularCloudLayouter(Point layoutCenter, double radius, double angleOffset) :
         this(layoutCenter, new FermatSpiralPointsGenerator(radius, angleOffset))
     {
+    }
 
+    public CircularCloudLayouter(PointLayouterSettings settings)
+        : this(settings.Center, settings.Generator)
+    {
     }
 
     public Rectangle PutNextRectangle(Size rectangleSize)
