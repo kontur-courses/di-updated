@@ -5,10 +5,13 @@ public class TagPreprocessor(
     IWordDelimiterProvider wordDelimiterProvider
     ) : IWordPreprocessor
 {
-    private readonly string[] _delimiters = wordDelimiterProvider.GetDelimiters();
+    private string[] _delimiters = null!;
     
     public IEnumerable<string> ExtractWords(string text)
     {
+        if (_delimiters == null!)
+            _delimiters = wordDelimiterProvider.GetDelimiters();
+        
         return text.Split(_delimiters,
                 StringSplitOptions.TrimEntries | StringSplitOptions.RemoveEmptyEntries)
             .Select(ProcessWord)

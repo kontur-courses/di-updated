@@ -10,32 +10,32 @@ using TagCloud.WordStatistics;
 
 namespace ConsoleClient;
 
-public class CLIClient : IDisposable
+public class CLIClient(
+    FileReaderRegistry readerRegistry,
+    IWordPreprocessor wordPreprocessor,
+    IWordStatistics wordStatistics,
+    IWordRenderer wordRenderer,
+    ILogger logger,
+    IWordDelimiterProvider wordDelimiterProvider,
+    IBoringWordProvider boringWordProvider)
+    : IDisposable
 {
-    private FileReaderRegistry _readerRegistry;
-    private IWordPreprocessor _wordPreprocessor;
-    private IWordStatistics _wordStatistics;
-    private IWordRenderer _wordRenderer;
-    private ILogger _logger;
+    private FileReaderRegistry _readerRegistry = readerRegistry;
     private bool _isDisposed;
 
-    public CLIClient(
-        FileReaderRegistry readerRegistry,
-        IWordPreprocessor wordPreprocessor,
-        IWordStatistics wordStatistics,
-        IWordRenderer wordRenderer,
-        ILogger logger)
-    {
-        _readerRegistry = readerRegistry;
-        _wordPreprocessor = wordPreprocessor;
-        _wordStatistics = wordStatistics;
-        _wordRenderer = wordRenderer;
-        _logger = logger;
-    }
-    
     public void RunOptions(Options options)
     {
         ObjectDisposedException.ThrowIf(_isDisposed, this);
+
+        if (options.WordDelimiterFile != null!)
+        {
+            wordDelimiterProvider.LoadDelimitersFile(options.WordDelimiterFile);
+        }
+
+        if (options.BoringWordsFile != null!)
+        {
+            boringWordProvider.LoadBoringWordsFile(options.BoringWordsFile);
+        }
         
         Bitmap bitmap = null;
         if (options.InputFile != null!)
@@ -51,18 +51,18 @@ public class CLIClient : IDisposable
                         sb.AppendLine(line);
                     fileReader.Dispose();
 
-                    var words = _wordPreprocessor.ExtractWords(sb.ToString());
-                    _wordStatistics.Populate(words);
-                    bitmap = _wordRenderer.Render(_wordStatistics);
+                    var words = wordPreprocessor.ExtractWords(sb.ToString());
+                    wordStatistics.Populate(words);
+                    bitmap = wordRenderer.Render(wordStatistics);
                 }
                 else
                 {
-                    _logger.Error("Input file is not supported.");
+                    logger.Error("Input file is not supported.");
                 }
             }
             else
             {
-                _logger.Error($"Could not find input file: {Path.GetFullPath(options.InputFile)}");
+                logger.Error($"Could not find input file: {Path.GetFullPath(options.InputFile)}");
             }
         }
 
@@ -71,7 +71,7 @@ public class CLIClient : IDisposable
             if (bitmap != null)
             {
                 bitmap.Save(options.OutputFile, ImageFormat.Png);
-                _logger.Info($"Output file is saved to {Path.GetFullPath(options.OutputFile)}");
+                logger.Info($"Output file is saved to {Path.GetFullPath(options.OutputFile)}");
             }
         }
     }

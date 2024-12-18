@@ -5,9 +5,7 @@ namespace TagCloud.WordPreprocessor;
 
 public class WordDelimiterProviderImpl : IWordDelimiterProvider
 {
-    private static readonly string _delimitersFilePath = "delimiters.txt";
-    
-    private readonly List<string> _delimiters;
+    private readonly HashSet<string> _delimiters;
     private readonly ILogger _logger;
     private readonly FileReaderRegistry _fileReaderRegistry;
 
@@ -15,38 +13,38 @@ public class WordDelimiterProviderImpl : IWordDelimiterProvider
     {
         _fileReaderRegistry = fileReaderRegistry;
         _logger = logger;
-        _delimiters = new List<string>();
-        _delimiters.AddRange(new []{ "\n", "\t", "\r", " " });
+        _delimiters = new HashSet<string>();
+        foreach (var del in new []{ "\n", "\t", "\r", " " })
+        {
+            _delimiters.Add(del);
+        }
     }
     
     public string[] GetDelimiters()
     {
-        if (!Path.Exists(_delimitersFilePath))
+        return _delimiters.ToArray();
+    }
+
+    public void LoadDelimitersFile(string path)
+    {
+        if (!Path.Exists(path))
         {
-            _logger.Info($"Could not find delimiters.txt file at: {Path.GetFullPath(_delimitersFilePath)}");
+            _logger.Info($"Could not find delimiters file at: {Path.GetFullPath(path)}");
             _logger.Info("Using only default word delimiters.");
-            return _delimiters.ToArray();
         }
         
-        if (_fileReaderRegistry.TryGetFileReader(".txt", out var fileReader))
+        var extension = Path.GetExtension(path);
+        if (_fileReaderRegistry.TryGetFileReader(extension, out var fileReader))
         {
-            _logger.Info("Detected delimiters.txt file.");
-            fileReader.OpenFile(Path.GetFullPath(_delimitersFilePath));
+            _logger.Info("Loading delimiters file.");
+            fileReader.OpenFile(Path.GetFullPath(path));
             while (fileReader.TryGetNextLine(out var line))
                 _delimiters.Add(line);
             fileReader.Dispose();
         }
-        
-        return _delimiters.ToArray();
-    }
-
-    public void AddDelimiter(string delimiter)
-    {
-        _delimiters.Add(delimiter);
-    }
-
-    public void AddDelimiters(string[] delimiters)
-    {
-        _delimiters.AddRange(delimiters);
+        else
+        {
+            _logger.Error($"Unsupported file format \"{extension}\"");
+        }
     }
 }
