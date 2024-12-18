@@ -1,5 +1,4 @@
-﻿using TagsCloudContainer.Layouters;
-using TagsCloudContainer.Layouters.Factory;
+﻿using TagsCloudContainer.Layouters.Factory;
 using TagsCloudContainer.Renderers;
 using TagsCloudContainer.WordsPreprocessor;
 using TagsCloudContainer.TextProviders.Factory;
@@ -19,7 +18,6 @@ public class App(
         var wordsProvider = wordsProviderFactory.CreateProvider(appConfig.TextFilePath);
         var layout = layoutFactory.CreateLayouter();
         
-        Console.WriteLine(appConfig.LayoutType);
         var words = wordsFormatter.PreprocessWords(wordsProvider.GetWords());
         var histogram = CalculateWordFrequency(words);
         
