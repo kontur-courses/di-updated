@@ -2,6 +2,12 @@
 Microsoft Visual Studio Solution File, Format Version 12.00
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "di", "FractalPainter/di.csproj", "{4B70F6B3-5C20-40D2-BFC9-D95C18D65DD6}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TagsCloudContainer", "TagsCloudContainer\TagsCloudContainer.csproj", "{D67052CF-F2C2-4C0B-8BCD-52A1E8E1011C}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TagsCloudWebGUI", "TagsCloudWebGUI\TagsCloudWebGUI.csproj", "{6082BA97-7666-4CBA-97FB-AFA49CACE361}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TagsCloudTest", "TagsCloudTest\TagsCloudTest.csproj", "{8D35D893-5321-4232-BC11-25623E51F532}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -12,5 +18,17 @@ Global
 		{4B70F6B3-5C20-40D2-BFC9-D95C18D65DD6}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{4B70F6B3-5C20-40D2-BFC9-D95C18D65DD6}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{4B70F6B3-5C20-40D2-BFC9-D95C18D65DD6}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D67052CF-F2C2-4C0B-8BCD-52A1E8E1011C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D67052CF-F2C2-4C0B-8BCD-52A1E8E1011C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D67052CF-F2C2-4C0B-8BCD-52A1E8E1011C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D67052CF-F2C2-4C0B-8BCD-52A1E8E1011C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6082BA97-7666-4CBA-97FB-AFA49CACE361}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6082BA97-7666-4CBA-97FB-AFA49CACE361}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6082BA97-7666-4CBA-97FB-AFA49CACE361}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6082BA97-7666-4CBA-97FB-AFA49CACE361}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8D35D893-5321-4232-BC11-25623E51F532}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8D35D893-5321-4232-BC11-25623E51F532}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8D35D893-5321-4232-BC11-25623E51F532}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8D35D893-5321-4232-BC11-25623E51F532}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal
