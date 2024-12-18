@@ -3,10 +3,15 @@ using TagCloud.WordsReader.Settings;
 
 namespace TagCloud.WordsReader.Readers;
 
-public class FileReader(FileReaderSettings settings) : IWordsReader
+public class FileReader(string path, Encoding encoding) : IWordsReader
 {
+    public FileReader(FileReaderSettings settings)
+        : this(settings.FilePath, settings.Encoding)
+    {
+    }
+    
     public List<string> ReadWords() 
-        => File.ReadAllLines(settings.FilePath, settings.Encoding)
+        => File.ReadAllLines(path, encoding)
             .Select(line => line.Split(" "))
             .SelectMany(arr => arr)
             .ToList();

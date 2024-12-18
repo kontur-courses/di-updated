@@ -16,4 +16,23 @@
       <ProjectReference Include="..\TagCloud\TagCloud.csproj" />
     </ItemGroup>
 
+    <ItemGroup>
+      <Content Include="bin\Debug\net8.0\Autofac.dll" />
+      <Content Include="bin\Debug\net8.0\CommandLine.dll" />
+      <Content Include="bin\Debug\net8.0\Microsoft.Win32.SystemEvents.dll" />
+      <Content Include="bin\Debug\net8.0\runtimes\unix\lib\net6.0\System.Drawing.Common.dll" />
+      <Content Include="bin\Debug\net8.0\runtimes\win\lib\net6.0\Microsoft.Win32.SystemEvents.dll" />
+      <Content Include="bin\Debug\net8.0\runtimes\win\lib\net6.0\System.Drawing.Common.dll" />
+      <Content Include="bin\Debug\net8.0\sample.txt" />
+      <Content Include="bin\Debug\net8.0\System.Drawing.Common.dll" />
+      <Content Include="bin\Debug\net8.0\TagCloud.dll" />
+      <Content Include="bin\Debug\net8.0\TagCloud.pdb" />
+      <Content Include="bin\Debug\net8.0\TagCloudClient.deps.json" />
+      <Content Include="bin\Debug\net8.0\TagCloudClient.dll" />
+      <Content Include="bin\Debug\net8.0\TagCloudClient.exe" />
+      <Content Include="bin\Debug\net8.0\TagCloudClient.pdb" />
+      <Content Include="bin\Debug\net8.0\TagCloudClient.runtimeconfig.json" />
+      <Content Include="bin\Debug\net8.0\WeCantSpell.Hunspell.dll" />
+    </ItemGroup>
+
 </Project>
