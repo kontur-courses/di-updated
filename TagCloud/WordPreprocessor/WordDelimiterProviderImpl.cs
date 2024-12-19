@@ -29,8 +29,9 @@ public class WordDelimiterProviderImpl : IWordDelimiterProvider
     {
         if (!Path.Exists(path))
         {
-            _logger.Info($"Could not find delimiters file at: {Path.GetFullPath(path)}");
-            _logger.Info("Using only default word delimiters.");
+            _logger.Warning($"Could not find delimiters file at: {Path.GetFullPath(path)}");
+            _logger.Warning("Using only default word delimiters.");
+            return;
         }
         
         var extension = Path.GetExtension(path);

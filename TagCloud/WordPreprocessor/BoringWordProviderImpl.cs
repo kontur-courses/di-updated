@@ -16,7 +16,8 @@ public class BoringWordProviderImpl(FileReaderRegistry fileReaderRegistry, ILogg
     {
         if (!Path.Exists(filePath))
         {
-            logger.Info($"Could not find boring words file at: {Path.GetFullPath(filePath)}");
+            logger.Warning($"Could not find boring words file at: {Path.GetFullPath(filePath)}");
+            return;
         }
         
         var extension = Path.GetExtension(filePath);
