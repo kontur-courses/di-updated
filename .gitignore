@@ -5,6 +5,10 @@ project.lock.json
 *.pyc
 nupkg/
 
+*.json
+*.txt
+*.png
+
 # Visual Studio Code
 .vscode/
 
