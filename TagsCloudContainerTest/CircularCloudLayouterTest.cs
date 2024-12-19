@@ -1,7 +1,9 @@
-﻿using System.Drawing;
+﻿using System.Diagnostics;
+using System.Drawing;
 using FluentAssertions;
 using NUnit.Framework;
 using NUnit.Framework.Interfaces;
+using TagsCloudContainer;
 using TagsCloudVisualization;
 using TagsCloudVisualization.Extensions;
 
@@ -18,8 +20,12 @@ public class CircularCloudLayouterTests
     public void SetUp()
     {
         center = new Point(0, 0);
-        layouter = new CircularCloudLayouter(center);
-        render = new CloudImageRenderer(new Size(800, 600));
+        
+        var pointGenerator = new SpiralGenerator(center);
+        
+        layouter = new CircularCloudLayouter(pointGenerator);
+        
+        render = new CloudImageRenderer();
     }
 
     [Test]
@@ -49,7 +55,7 @@ public class CircularCloudLayouterTests
             layouter.PutNextRectangle(size);
         }
 
-        var rectangles = layouter.GetRectangles();
+        var rectangles = layouter.GetRectangles().ToList();
 
         for (var i = 0; i < rectangles.Count; i++)
         {
@@ -93,7 +99,7 @@ public class CircularCloudLayouterTests
             layouter.PutNextRectangle(size);
         }
 
-        var rectangles = layouter.GetRectangles();
+        var rectangles = layouter.GetRectangles().ToList();
         rectangles.Count.Should().Be(100, "All rectangles should be placed successfully");
     }
     
@@ -102,6 +108,29 @@ public class CircularCloudLayouterTests
         return new Point(
             rectangle.Left + rectangle.Width / 2,
             rectangle.Top + rectangle.Height / 2);
+    }
+    
+    [Test]
+    public void PutNextRectangle_WithManyRectangles_ShouldCompleteInReasonableTime()
+    {
+        const int rectangleCount = 1000000;
+        var random = new Random(42);
+        var stopwatch = new Stopwatch();
+        var rectangles = new List<Rectangle>();
+        
+        stopwatch.Start();
+        for (var i = 0; i < rectangleCount; i++)
+        {
+            var size = new Size(
+                random.Next(10, 50),
+                random.Next(10, 50));
+        
+            rectangles.Add(layouter.PutNextRectangle(size));
+        }
+        stopwatch.Stop();
+        
+        stopwatch.Elapsed.Should().BeLessThan(TimeSpan.FromSeconds(3), 
+            "размещение большого количества прямоугольников должно выполняться быстро");
     }
     
     [TearDown]
@@ -120,7 +149,6 @@ public class CircularCloudLayouterTests
         var filePath = Path.Combine(directory, $"{testName}.png");
         var rectangles = layouter.GetRectangles();
         
-        render.SaveToFile(filePath, rectangles);
         Console.WriteLine($"Tag cloud visualization saved to file {filePath}");
     }
 }

@@ -1,8 +1,9 @@
 ﻿using System.Drawing;
+using TagsCloudVisualization.Interfaces;
 
 namespace TagsCloudVisualization;
 
-public class SpiralGenerator
+public class SpiralGenerator: IPointGenerator
 {
     private readonly Point center;
     private double phi;

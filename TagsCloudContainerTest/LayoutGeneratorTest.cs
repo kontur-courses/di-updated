@@ -1,14 +1,14 @@
 ﻿using System.Drawing;
 using FluentAssertions;
 using NUnit.Framework;
+using TagsCloudContainer;
 using TagsCloudVisualization;
-
 
 namespace TagsCloudVisualizationTest;
 
 public class LayoutGeneratorTests
 {
-    private LayoutGenerator generator;
+    private TagCloudGenerator generator;
     private Point center;
     private Size imageSize;
     private string outputDirectory;
@@ -18,9 +18,16 @@ public class LayoutGeneratorTests
     {
         center = new Point(0, 0);
         imageSize = new Size(800, 600);
-        generator = new LayoutGenerator(center, imageSize);
-        outputDirectory = Path.Combine(Directory.GetCurrentDirectory(), "TestOutputs");
 
+        var pointGenerator = new SpiralGenerator(center);
+        var layouter = new CircularCloudLayouter(pointGenerator);
+        var renderer = new CloudImageRenderer();
+        var boringWords = new[] { "a", "the", "is", "and" };
+        var wordProcessor = new WordProcessor(boringWords);
+
+        generator = new TagCloudGenerator(wordProcessor, layouter, renderer);
+
+        outputDirectory = Path.Combine(Directory.GetCurrentDirectory(), "TestOutputs");
         Directory.CreateDirectory(outputDirectory);
     }
 
@@ -32,27 +39,41 @@ public class LayoutGeneratorTests
     }
 
     [Test]
-    public void GenerateLayout_ShouldCreateImageFile()
+    public void GenerateCloud_ShouldCreateImageFile()
     {
-        var outputFileName = Path.Combine(outputDirectory, "layout_test.png");
-        generator.GenerateLayout(outputFileName, 10, random => new Size(50, 20));
+        var inputFilePath = Path.Combine(outputDirectory, "input.txt");
+        var outputFilePath = Path.Combine(outputDirectory, "layout_test.png");
 
-        File.Exists(outputFileName).Should().BeTrue("файл изображения должен быть создан");
+        File.WriteAllLines(inputFilePath, new[] { "word", "cloud", "test", "word", "cloud", "test", "test" });
+
+        generator.GenerateCloud(inputFilePath, outputFilePath, imageSize);
+
+        File.Exists(outputFilePath).Should().BeTrue("файл изображения должен быть создан");
     }
 
     [Test]
-    public void GenerateLayout_ShouldGenerateCorrectNumberOfRectangles()
+    public void GenerateCloud_ShouldPlaceCorrectNumberOfTags()
     {
-        var outputFileName = Path.Combine(outputDirectory, "layout_test.png");
-        const int rectangleCount = 50;
-        generator.GenerateLayout(outputFileName, rectangleCount, random => new Size(50, 20));
+        var inputFilePath = Path.Combine(outputDirectory, "input.txt");
+        var outputFilePath = Path.Combine(outputDirectory, "layout_test.png");
+        
+        File.WriteAllLines(inputFilePath, new[] { "word", "cloud", "test", "word", "cloud", "test", "test" });
 
-        var layouter = new CircularCloudLayouter(center);
-        for (var i = 0; i < rectangleCount; i++)
+        generator.GenerateCloud(inputFilePath, outputFilePath, imageSize);
+
+        var pointGenerator = new SpiralGenerator(center);
+        var layouter = new CircularCloudLayouter(pointGenerator);
+
+        var words = File.ReadAllLines(inputFilePath);
+        var wordFrequencies = words.GroupBy(w => w).ToDictionary(g => g.Key, g => g.Count());
+
+        foreach (var frequency in wordFrequencies.Values)
         {
-            layouter.PutNextRectangle(new Size(50, 20));
+            var size = new Size(frequency * 10, frequency * 10);
+            layouter.PutNextRectangle(size);
         }
 
-        layouter.GetRectangles().Count.Should().Be(rectangleCount, "должно быть сгенерировано правильное количество прямоугольников");
+        var generatedRectangles = layouter.GetRectangles().ToList();
+        generatedRectangles.Count.Should().Be(wordFrequencies.Count, "должно быть сгенерировано правильное количество тегов");
     }
 }

@@ -1,45 +1,19 @@
 ﻿using System.Drawing;
 using System.Drawing.Imaging;
+using TagsCloudVisualization.Interfaces;
 
 namespace TagsCloudVisualization;
 
-public class CloudImageRenderer
+public class CloudImageRenderer: ITagCloudRenderer
 {
-    private readonly Size imageSize;
-
-    public CloudImageRenderer(Size imageSize)
+    public void Render(IEnumerable<Tag> tags, string outputFilePath, Size imageSize)
     {
-        this.imageSize = imageSize;
+        throw new NotImplementedException();
     }
-
-    public void SaveToFile(string filename, IEnumerable<Rectangle> rectangles)
+    
+    private static Color RandomColor()
     {
-        using var bitmap = new Bitmap(imageSize.Width, imageSize.Height);
-        using var graphics = Graphics.FromImage(bitmap);
-        graphics.Clear(Color.Black);
-
         var random = new Random();
-        foreach (var rectangle in rectangles)
-        {
-            var color = Color.FromArgb(
-                random.Next(128, 255),
-                random.Next(128, 255),
-                random.Next(128, 255)
-            );
-
-            using var brush = new SolidBrush(Color.FromArgb(180, color));
-            using var pen = new Pen(color, 2f);
-
-            var rect = new Rectangle(
-                rectangle.X + imageSize.Width / 2,
-                rectangle.Y + imageSize.Height / 2,
-                rectangle.Width,
-                rectangle.Height);
-
-            graphics.FillRectangle(brush, rect);
-            graphics.DrawRectangle(pen, rect);
-        }
-
-        bitmap.Save(filename, ImageFormat.Png);
+        return Color.FromArgb(random.Next(128, 255), random.Next(128, 255), random.Next(128, 255));
     }
 }

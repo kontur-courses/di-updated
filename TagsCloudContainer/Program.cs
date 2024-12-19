@@ -1,9 +1,16 @@
 ﻿using System.Drawing;
+using Autofac;
+using TagsCloudContainer;
 using TagsCloudVisualization;
+using TagsCloudVisualization.Interfaces;
 
+var container = DependencyInjectionConfig.BuildContainer();
 
-var generator = new LayoutGenerator(new Point(0, 0), new Size(800, 600));
+using var scope = container.BeginLifetimeScope();
+var tagCloudGenerator = scope.Resolve<ITagCloudGenerator>();
 
-generator.GenerateLayout("layout1.png", 100, random => new Size(random.Next(20, 100), random.Next(10, 50)));
-generator.GenerateLayout("layout2.png", 150, random => new Size(50, 20));
-generator.GenerateLayout("layout3.png", 200, random => new Size(random.Next(10, 30), random.Next(10, 30)));
+var inputFilePath = "input.txt";  
+var outputFilePath = "output.png";
+var imageSize = new Size(1000, 1000);
+
+tagCloudGenerator.GenerateCloud(inputFilePath, outputFilePath, imageSize);

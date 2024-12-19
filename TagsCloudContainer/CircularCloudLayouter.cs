@@ -1,24 +1,32 @@
 ﻿using System.Drawing;
-using System.Drawing.Imaging;
-using System.IO;
 using TagsCloudVisualization;
+using TagsCloudVisualization.Interfaces;
 
-public class CircularCloudLayouter
+namespace TagsCloudContainer;
+
+public class CircularCloudLayouter(IPointGenerator pointGenerator): ITagCloudLayouter
 {
-    private readonly RectangleLayouter rectangleLayouter;
-
-    public CircularCloudLayouter(Point center)
-    {
-        rectangleLayouter = new RectangleLayouter(center);
-    }
-
+    private readonly List<Rectangle> _rectangles = new();
+    private readonly Grid _grid = new();
     public Rectangle PutNextRectangle(Size rectangleSize)
     {
-        return rectangleLayouter.PutNextRectangle(rectangleSize);
+        if (rectangleSize.Width <= 0 || rectangleSize.Height <= 0)
+            throw new ArgumentException("Размеры прямоугольника должны быть положительными.");
+
+        Rectangle newRectangle;
+        do
+        {
+            var point = pointGenerator.GetNextPoint();
+            var location = new Point(
+                point.X - rectangleSize.Width / 2,
+                point.Y - rectangleSize.Height / 2);
+            newRectangle = new Rectangle(location, rectangleSize);
+        } while (_grid.IsIntersecting(newRectangle));
+        
+        _grid.AddRectangle(newRectangle);
+        _rectangles.Add(newRectangle);
+        return newRectangle;
     }
 
-    public List<Rectangle> GetRectangles()
-    {
-        return rectangleLayouter.GetRectangles();
-    }
+    public IEnumerable<Rectangle> GetRectangles() => _rectangles;
 }
