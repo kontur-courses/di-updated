@@ -82,7 +82,7 @@ public class SettingsProviderImpl(ILogger? logger) : ISettingsProvider
             if (!Path.Exists(_settingsFile))
             {
                 SaveSettings();
-                logger?.Warning("Created settings.json file in your directory.");
+                logger?.Warning($"Created settings.json file at {Path.GetFullPath(_settingsFile)}");
             }
         }
         
