@@ -12,15 +12,15 @@ public class TagLayouter : ITagLayouter
     private int FontSizeOffset => _maxFontSize - _minFontSize;
     private readonly Graphics _graphics;
     
-    public TagLayouter(ICloudLayouter cloudLayouter, int minFontSize, int maxFontSize, FontFamily fontFamily)
+    public TagLayouter(ICloudLayouter cloudLayouter, TagLayouterOptions options)
     {
-        if (minFontSize > maxFontSize)
-            throw new ArgumentException($"{nameof(minFontSize)} must be less or equal {nameof(maxFontSize)}");
+        if (options.MinFontSize > options.MaxFontSize)
+            throw new ArgumentException($"{nameof(options.MinFontSize)} must be less or equal {nameof(options.MaxFontSize)}");
         
         _cloudLayouter = cloudLayouter;
-        _minFontSize = minFontSize;
-        _maxFontSize = maxFontSize;
-        _fontFamily = fontFamily;
+        _minFontSize = options.MinFontSize;
+        _maxFontSize = options.MaxFontSize;
+        _fontFamily = options.FontFamily;
         _graphics = Graphics.FromHwnd(IntPtr.Zero);
     }
 
@@ -48,4 +48,23 @@ public class TagLayouter : ITagLayouter
 
     private Size GetWordSize(string word, int fontSize) => 
         Size.Ceiling(_graphics.MeasureString(word, new Font(_fontFamily, fontSize)));
+}
+
+public class TagLayouterOptions(int minFontSize, int maxFontSize, string fontName)
+{
+    public int MinFontSize { get; } = minFontSize;
+    public int MaxFontSize { get; } = maxFontSize;
+    public FontFamily FontFamily { get; } = ConvertFontNameToFontFamily(fontName);
+
+    private static FontFamily ConvertFontNameToFontFamily(string fontName)
+    {
+        try
+        {
+            return new FontFamily(fontName);
+        }
+        catch (ArgumentException e)
+        {
+            throw new ArgumentException($"Font name '{fontName}' is invalid", e);
+        }
+    }
 }
