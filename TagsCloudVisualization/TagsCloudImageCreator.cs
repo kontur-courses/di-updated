@@ -32,6 +32,6 @@ public class TagsCloudImageCreator(
         imageSaver.Save(bitmap);
     }
 
-    private IEnumerable<string> DivideOnWords(string text) =>
+    private static IEnumerable<string> DivideOnWords(string text) =>
         GetWordsRegex.Matches(text).Select(x => x.Value);
 }
