@@ -27,14 +27,14 @@ public static class ContainerBuilderExtensions
         return builder;
     }
     
-    public static ContainerBuilder RegisterImageSavers(this ContainerBuilder builder, TagsCloudVisualizatonOptions options)
+    public static ContainerBuilder RegisterImageSavers(this ContainerBuilder builder, TagsCloudVisualizationOptions options)
     {
         builder.RegisterType<PngSaver>().WithParameter("path", options.PathToSave).As<IImageSaver>();
         
         return builder;
     }
     
-    public static ContainerBuilder RegisterColorFactory(this ContainerBuilder builder, TagsCloudVisualizatonOptions options)
+    public static ContainerBuilder RegisterColorFactory(this ContainerBuilder builder, TagsCloudVisualizationOptions options)
     {
         builder.RegisterType<DefaultColorFactory>().As<IColorFactory>().WithParameter("colorName", options.ColorName);
         
@@ -50,7 +50,7 @@ public static class ContainerBuilderExtensions
         return builder;
     }
     
-    public static ContainerBuilder RegisterCloudLayouter(this ContainerBuilder builder, TagsCloudVisualizatonOptions options)
+    public static ContainerBuilder RegisterCloudLayouter(this ContainerBuilder builder, TagsCloudVisualizationOptions options)
     {
         builder
             .RegisterType<CircularCloudLayouter>()
@@ -63,7 +63,7 @@ public static class ContainerBuilderExtensions
         return builder;
     }
     
-    public static ContainerBuilder RegisterTagLayouter(this ContainerBuilder builder, TagsCloudVisualizatonOptions options)
+    public static ContainerBuilder RegisterTagLayouter(this ContainerBuilder builder, TagsCloudVisualizationOptions options)
     {
         builder.RegisterType<TagLayouterOptions>().WithParameters([
             new NamedParameter("minFontSize", options.MinFontSize),

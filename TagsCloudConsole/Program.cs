@@ -9,7 +9,7 @@ public static class Program
     public static void Main(string[] args)
     {
         var options = CommandLine.Parser.Default
-            .ParseArguments<TagsCloudVisualizatonOptions>(args)
+            .ParseArguments<TagsCloudVisualizationOptions>(args)
             .Value;
 
         var container = new ContainerBuilder()
