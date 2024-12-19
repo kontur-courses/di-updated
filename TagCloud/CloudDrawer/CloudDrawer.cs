@@ -28,6 +28,6 @@ public class CloudDrawer
         }
 
         return bmp;
-        // SaviorImages.SaveImage(bmp, fileName, "PNG");
     }
+    
 }

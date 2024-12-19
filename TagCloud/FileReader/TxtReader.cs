@@ -2,8 +2,13 @@
 
 public class TxtReader : IFileReader
 {
-    public bool TryReadFile(string filePath)
+    public List<string> TryReadFile(string filePath)
     {
-        throw new NotImplementedException();
+        if (!File.Exists(filePath))
+            throw new FileNotFoundException();
+
+        return File.ReadLines(filePath)
+            .Where(line => !string.IsNullOrWhiteSpace(line))
+            .ToList();
     }
 }

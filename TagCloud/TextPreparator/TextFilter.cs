@@ -4,8 +4,9 @@ public class TextFilter
 {
     public HashSet<string> BoringWords = new HashSet<string>();
 
-    public List<string> GetFilteredText(string text)
+    public List<string> GetFilteredText(List<string> words)
     {
-        throw new NotImplementedException();
+        words.RemoveAll(word => BoringWords.Contains(word));
+        return words;
     }
 }
