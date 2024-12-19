@@ -1,12 +1,13 @@
 ﻿namespace TagCloud.TextPreparator;
 
-public class TextFilter
+public class TextFilter : ITextFilter
 {
-    public HashSet<string> BoringWords = new HashSet<string>();
+    public ISet<string> BoringWords { get; set; } = new HashSet<string>();
 
-    public List<string> GetFilteredText(List<string> words)
+    public IEnumerable<string> GetFilteredText(IEnumerable<string> words)
     {
-        words.RemoveAll(word => BoringWords.Contains(word));
-        return words;
+        var filteredText = words.ToList();
+        filteredText.RemoveAll(word => BoringWords.Contains(word));
+        return filteredText;
     }
 }

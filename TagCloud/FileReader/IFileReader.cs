@@ -2,5 +2,5 @@
 
 public interface IFileReader
 {
-    public List<string> TryReadFile(String filePath);
+    public IEnumerable<string> TryReadFile(String filePath);
 }

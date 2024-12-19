@@ -2,7 +2,7 @@
 
 public class TxtReader : IFileReader
 {
-    public List<string> TryReadFile(string filePath)
+    public IEnumerable<string> TryReadFile(string filePath)
     {
         if (!File.Exists(filePath))
             throw new FileNotFoundException();

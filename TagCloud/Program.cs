@@ -2,21 +2,23 @@
 using TagCloud;
 using TagCloud.CloudDrawer;
 using TagCloud.CloudLayout;
+using TagCloud.TextPreparator;
 
 public static class Program
 {
     public static void Main()
     {
-        DrawerSettings drawerSettings = new DrawerSettings();
-        CloudGenerator cloudGenerator = new CloudGenerator();
+        var drawerSettings = new DrawerSettings();
+        var rectanglesGenerator = new RectanglesGenerator();
+        var textFilter = new TextFilter();
+        var textHandler = new TextHandler(textFilter);
         drawerSettings.BackgroundColor = Color.White;
-        CloudDrawer cloudDrawer = new CloudDrawer(drawerSettings);
-        List<int> countOfRectangles = new List<int>() {50, 100, 400};
+        var cloudDrawer = new CloudDrawer(drawerSettings, textHandler, rectanglesGenerator);
+        var countOfRectangles = new List<int>() {50, 100, 400};
         foreach (var i in countOfRectangles)
         {
-            CircularCloud circularCloud =
-                new CircularCloud(drawerSettings.CloudCentre);
-            var rectangles = cloudGenerator.GenerateRectangles(i, circularCloud);
+            var circularCloud = new CircularCloud(drawerSettings.CloudCentre);
+            var rectangles = rectanglesGenerator.GenerateRectangles(i, circularCloud);
             drawerSettings.BackgroundSize = circularCloud.GetCloudSize();
             var cloud = cloudDrawer.DrawRectangles(rectangles);
 

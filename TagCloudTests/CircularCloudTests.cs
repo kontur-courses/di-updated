@@ -6,6 +6,7 @@ using TagCloud;
 using TagCloud.CloudDrawer;
 using TagCloud.CloudForms;
 using TagCloud.CloudLayout;
+using TagCloud.TextPreparator;
 
 namespace TagCloudTests;
 
@@ -13,7 +14,10 @@ public class CircularCloudTests
 {
     private CircularCloud _circularCloud;
     private static DrawerSettings _drawerSettings = new();
-    private CloudDrawer _cloudDrawer = new(_drawerSettings);
+    private static TextFilter _textFilter = new();
+    private static TextHandler _textHandler = new(_textFilter);
+    private static RectanglesGenerator _rectanglesGenerator = new();
+    private CloudDrawer _cloudDrawer = new(_drawerSettings, _textHandler, _rectanglesGenerator);
 
 
     [SetUp]

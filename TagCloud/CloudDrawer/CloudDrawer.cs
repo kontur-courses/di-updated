@@ -1,17 +1,25 @@
 ﻿using System.Drawing;
+using Microsoft.Maui.Graphics;
+using TagCloud.TextPreparator;
+using Color = System.Drawing.Color;
 
 namespace TagCloud.CloudDrawer;
 
-public class CloudDrawer
+public class CloudDrawer : ICloudDrawer
 {
-    private DrawerSettings DrawerSettings;
+    public DrawerSettings DrawerSettings { get; set; }
+    public ITextHandler TextHandler { get; set; }
+    public IRectanglesGenerator RectanglesGenerator { get; set; }
     private int _width;
     private int _height;
 
-    public CloudDrawer(DrawerSettings drawerSettings)
+    public CloudDrawer(DrawerSettings drawerSettings, TextHandler textHandler, RectanglesGenerator rectanglesGenerator)
     {
         DrawerSettings = drawerSettings;
+        TextHandler = textHandler;
+        RectanglesGenerator = rectanglesGenerator;
     }
+
 
     public Bitmap DrawRectangles(List<Rectangle> rectangles)
     {
@@ -29,5 +37,10 @@ public class CloudDrawer
 
         return bmp;
     }
-    
+
+
+    public ICanvas DrawCloud(ICanvas canvas)
+    {
+        throw new NotImplementedException();
+    }
 }
